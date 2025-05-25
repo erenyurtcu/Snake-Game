@@ -7,6 +7,7 @@
 
 #define uchar unsigned char
 
+// Izgara parametreleri
 #define GRID_SIZE     6
 #define GRID_COLS     10
 #define GRID_ROWS     10
@@ -15,50 +16,59 @@
 
 uchar SNAKE[40][2];
 uchar dir = 2;
-uchar food[2], LENGTH_SNAKE = 3;
+uchar food[2], LENGTH_SNAKE = 10;
+// Yýlaný biraz daha aþaðý baþlatýyoruz:
 uchar posX = 1, posY = 2;
 uchar score = 0;
-uchar best_score = 0;
-int grow = 0; // ?? Yem yendiyse bu 1 olur, kuyruk silinmez
-
 char score_txt[11] = "Score: 00";
-char best_score_txt[10] = "Best: 00";
-char gayover[14] = "GAME OVER !!!";
+char gayover[14]= "GAME OVER !!!";
 uchar i;
 
+// Izgarayý tek seferlik çiz
 void drawGrid() {
    for (uchar c = 0; c <= GRID_COLS; c++) {
       uchar x = GRID_ORIGIN_X + c * GRID_SIZE;
-      glcd_line(x, GRID_ORIGIN_Y, x, GRID_ORIGIN_Y + GRID_ROWS * GRID_SIZE, 1);
+      glcd_line(x,
+                GRID_ORIGIN_Y,
+                x,
+                GRID_ORIGIN_Y + GRID_ROWS*GRID_SIZE,
+                1);
    }
    for (uchar r = 0; r <= GRID_ROWS; r++) {
       uchar y = GRID_ORIGIN_Y + r * GRID_SIZE;
-      glcd_line(GRID_ORIGIN_X, y, GRID_ORIGIN_X + GRID_COLS * GRID_SIZE, y, 1);
+      glcd_line(GRID_ORIGIN_X,
+                y,
+                GRID_ORIGIN_X + GRID_COLS*GRID_SIZE,
+                y,
+                1);
    }
 }
 
+// Hücre içini doldur/boþalt
 void fillCell(uchar gx, uchar gy, int1 color) {
    uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
    uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
-   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
-      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
+   for (uchar dx = 0; dx < GRID_SIZE-1; dx++)
+      for (uchar dy = 0; dy < GRID_SIZE-1; dy++)
          glcd_pixel(px + dx, py + dy, color);
 }
 
+// Skor alanýný temizleyen fonksiyon
 void clearScoreArea() {
-   for (uchar x = 65; x < 125; x++) {
-      for (uchar y = 0; y < 20; y++) {
+   uchar startX = 65;
+   uchar startY = 0;
+   uchar width = 60;
+   uchar height = 10;
+   uchar x, y;
+   for (x = startX; x < startX + width; x++) {
+      for (y = startY; y < startY + height; y++) {
          glcd_pixel(x, y, 0);
       }
    }
 }
 
-void writeScore() {
-   clearScoreArea();
-   glcd_text57(65, 0, score_txt, 1, 1);
-   glcd_text57(65, 10, best_score_txt, 1, 1);
-}
-
+// --- HATALI prevX-prevY ve eski yem silme kodu TAMAMEN kaldýrýldý ---
+// Yemi yalnýzca yýlan olmayan boþ bir gridde üretir ve çizer
 void criar_comida() {
    uchar valid = 0;
    while (!valid) {
@@ -76,17 +86,21 @@ void criar_comida() {
 }
 
 void gameover() {
-   LENGTH_SNAKE = 3;
+   LENGTH_SNAKE = 10;
    posX = 1;
-   posY = 2;
+   posY = 2;  // Yýlan biraz aþaðýda baþlýyor
    score = 0;
-   grow = 0;
    score_txt[7] = score_txt[8] = '0';
    dir = 2;
    glcd_fillScreen(0);
    drawGrid();
    glcd_text57(25, 60, gayover, 1, 1);
    delay_ms(1000);
+}
+
+void writeScore() {
+   clearScoreArea();
+   glcd_text57(65, 0, score_txt, 1, 1);
 }
 
 void main() {
@@ -136,32 +150,20 @@ Start:
       }
 
       fillCell(posX, posY, 1);
-
-      // Kuyruðu sil ama sadece büyüme yapýlmýyorsa
-      if (grow > 0) {
-         grow--; // uzadý, bu adýmda kuyruk silme
-      } else {
-         fillCell(tailX, tailY, 0); // kuyruk silinir
-      }
+      fillCell(tailX, tailY, 0);
 
       if (posX == food[0] && posY == food[1]) {
          LENGTH_SNAKE++;
-         grow++;  // bir sonraki adýmda kuyruk silinmeyecek
+         if (LENGTH_SNAKE >= GRID_COLS * GRID_ROWS - 2) {
+            gameover(); goto Start;
+         }
          criar_comida();
          score++;
          score_txt[7] = '0' + (score / 10);
          score_txt[8] = '0' + (score % 10);
-
-         if (score > best_score) {
-            best_score = score;
-            best_score_txt[7] = '0' + (best_score / 10);
-            best_score_txt[8] = '0' + (best_score % 10);
-         }
-
          writeScore();
       }
 
-      delay_ms(600);
+      delay_ms(5000 / LENGTH_SNAKE);
    }
 }
-

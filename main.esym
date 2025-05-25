@@ -1,7 +1,7 @@
-D G "__PCM__" 0 202 ""5.025""
-D G "__DEVICE__" 0 202 "877"
-D G "__DATE__" 0 202 ""24-May-25""
-D G "__TIME__" 0 202 ""15:59:59"" "Standard Header file for the PIC16F877A device ////////////////"
+D G "__PCM__" 0 170 ""5.025""
+D G "__DEVICE__" 0 170 "877"
+D G "__DATE__" 0 170 ""25-May-25""
+D G "__TIME__" 0 170 ""14:06:31"" "Standard Header file for the PIC16F877A device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 v L "value" 1 37 "int8" `54 
 f B "set_tris_a" 1 37 "void(int8 value)" `53 
@@ -1341,53 +1341,52 @@ C L "glcd_readByte" 6 2 1 "FUNCTION"
 C L "glcd_readByte" 6 2 1 "FUNCTION"
 D G "_STDIO" 7 12 ""
 D G "uchar" 0 8 "unsigned char"
-D G "GRID_SIZE" 0 11 "6"
-D G "GRID_COLS" 0 12 "10"
-D G "GRID_ROWS" 0 13 "10"
-D G "GRID_ORIGIN_X" 0 14 "0"
-D G "GRID_ORIGIN_Y" 0 15 "0"
-V G "SNAKE" 0 17 "int8[40][2]" `983 
-V G "dir" 0 18 "int8" `985 
-V G "food" 0 19 "int8[2]" `986 
-V G "LENGTH_SNAKE" 0 19 "int8" `987 
-V G "posX" 0 21 "int8" `988 
-V G "posY" 0 21 "int8" `989 
-V G "score" 0 22 "int8" `990 
-V G "score_txt" 0 23 "int8[11]" `991 
-V G "gayover" 0 24 "int8[14]" `992 
-V G "i" 0 25 "int8" `993  "Izgarayý tek seferlik çiz"
-F G "drawGrid" 0 28 "void()" `994 
-V L "c" 0 29 "int8" `995 
-V L "x" 0 30 "int8" `996 
-V L "r" 0 37 "int8" `997 
-V L "y" 0 38 "int8" `998 
-C L "fillCell" 0 10 1 "FUNCTION"
-V L "gx" 0 48 "int8" `1000 
-V L "gy" 0 48 "int8" `1001 
-V L "color" 0 48 "int8" `1002 
-F G "fillCell" 0 48 "void(int8 gx,int8 gy,int8 color)" `999 
-V L "px" 0 49 "int8" `1003 
-V L "py" 0 50 "int8" `1004 
-V L "dx" 0 51 "int8" `1005 
-V L "dy" 0 52 "int8" `1006 
-C L "clearScoreArea" 0 10 1 "FUNCTION"
-F G "clearScoreArea" 0 57 "void(int8 gx,int8 gy,int8 dir)" `1007 
-V L "startX" 0 58 "int8" `1008 
-V L "startY" 0 59 "int8" `1009 
-V L "width" 0 60 "int8" `1010 
-V L "height" 0 61 "int8" `1011 
-V L "x" 0 62 "int8" `1012 
-V L "y" 0 62 "int8" `1013 
-C L "criar_comida" 0 10 2 "FUNCTION"
-F G "criar_comida" 0 72 "void()" `1014 
-V L "valid" 0 73 "int8" `1015 
-V L "j" 0 78 "int8" `1016 
-F G "gameover" 0 88 "void()" `1017 
-C L "gameover" 0 10 1 "FUNCTION"
-F G "writeScore" 0 101 "void()" `1018 
-F G "MAIN" 0 106 "void()" `1019 
-V L "tailX" 0 138 "int8" `1024 
-V L "tailY" 0 138 "int8" `1025 
+D G "GRID_SIZE" 0 10 "6"
+D G "GRID_COLS" 0 11 "10"
+D G "GRID_ROWS" 0 12 "10"
+D G "GRID_ORIGIN_X" 0 13 "0"
+D G "GRID_ORIGIN_Y" 0 14 "0"
+V G "SNAKE" 0 16 "int8[40][2]" `983 
+V G "dir" 0 17 "int8" `985 
+V G "food" 0 18 "int8[2]" `986 
+V G "LENGTH_SNAKE" 0 18 "int8" `987 
+V G "posX" 0 19 "int8" `988 
+V G "posY" 0 19 "int8" `989 
+V G "score" 0 20 "int8" `990 
+V G "best_score" 0 21 "int8" `991 
+V G "grow" 0 22 "int8" `992 
+V G "score_txt" 0 24 "int8[11]" `993 
+V G "best_score_txt" 0 25 "int8[10]" `994 
+V G "gayover" 0 26 "int8[14]" `995 
+V G "i" 0 27 "int8" `996 
+F G "drawGrid" 0 29 "void()" `997 
+V L "c" 0 30 "int8" `998 
+V L "x" 0 31 "int8" `999 
+V L "r" 0 34 "int8" `1000 
+V L "y" 0 35 "int8" `1001 
+V L "gx" 0 40 "int8" `1003 
+V L "gy" 0 40 "int8" `1004 
+V L "color" 0 40 "int8" `1005 
+F G "fillCell" 0 40 "void(int8 gx,int8 gy,int8 color)" `1002 
+V L "px" 0 41 "int8" `1006 
+V L "py" 0 42 "int8" `1007 
+V L "dx" 0 43 "int8" `1008 
+V L "dy" 0 44 "int8" `1009 
+F G "clearScoreArea" 0 48 "void()" `1010 
+V L "x" 0 49 "int8" `1011 
+V L "y" 0 50 "int8" `1012 
+F G "writeScore" 0 56 "void()" `1013 
+F G "criar_comida" 0 62 "void()" `1014 
+V L "valid" 0 63 "int8" `1015 
+V L "j" 0 68 "int8" `1016 
+F G "gameover" 0 78 "void()" `1017 
+F G "MAIN" 0 92 "void()" `1018 
+V L "tailX" 0 124 "int8" `1023 
+V L "tailY" 0 124 "int8" `1024 
+C L "MAIN" 0 22 1 "FUNCTION"
+C L "MAIN" 0 22 1 "FUNCTION"
+C L "MAIN" 0 22 1 "FUNCTION"
+C L "MAIN" 0 22 1 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 0

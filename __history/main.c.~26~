@@ -7,6 +7,7 @@
 
 #define uchar unsigned char
 
+// Izgara parametreleri
 #define GRID_SIZE     6
 #define GRID_COLS     10
 #define GRID_ROWS     10
@@ -19,11 +20,11 @@ uchar food[2], LENGTH_SNAKE = 3;
 uchar posX = 1, posY = 2;
 uchar score = 0;
 uchar best_score = 0;
-int grow = 0; // ?? Yem yendiyse bu 1 olur, kuyruk silinmez
+int grow = 0;  // ?? Kuyruktan uzama kontrolü
 
 char score_txt[11] = "Score: 00";
 char best_score_txt[10] = "Best: 00";
-char gayover[14] = "GAME OVER !!!";
+char gayover[14]= "GAME OVER !!!";
 uchar i;
 
 void drawGrid() {
@@ -137,16 +138,16 @@ Start:
 
       fillCell(posX, posY, 1);
 
-      // Kuyruðu sil ama sadece büyüme yapýlmýyorsa
+      // Kuyruðu silme (grow varsa silme › yýlan arkadan uzar)
       if (grow > 0) {
-         grow--; // uzadý, bu adýmda kuyruk silme
+         grow--;
       } else {
-         fillCell(tailX, tailY, 0); // kuyruk silinir
+         fillCell(tailX, tailY, 0);
       }
 
       if (posX == food[0] && posY == food[1]) {
          LENGTH_SNAKE++;
-         grow++;  // bir sonraki adýmda kuyruk silinmeyecek
+         grow++;  // Yem yendiyse bir sonraki adýmda kuyruðu silme
          criar_comida();
          score++;
          score_txt[7] = '0' + (score / 10);

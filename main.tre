@@ -1,5 +1,5 @@
 ÀÄmain
-   ÀÄMAIN  1/525  Ram=3
+   ÀÄMAIN  1/544  Ram=3
       ÃÄ@cinit1  (Inline)  Ram=0
       ÃÄglcd_init  0/102  Ram=1
       ³  ÃÄglcd_writeByte  0/44  Ram=2
@@ -50,21 +50,23 @@
       ³  ÀÄ*
       ÃÄdrawGrid  0/59  Ram=0
       ³  ÀÄ*
-      ÃÄwriteScore  0/46  Ram=0
-      ³  ÃÄclearScoreArea  (Inline)  Ram=6
+      ÃÄwriteScore  0/49  Ram=0
+      ³  ÃÄclearScoreArea  (Inline)  Ram=0
+      ³  ³  ÀÄglcd_pixel  0/171  Ram=6
+      ³  ³     ÀÄ*
+      ³  ÃÄglcd_text57  0/215  Ram=21
+      ³  ³  ÃÄ@MUL88  0/39  Ram=2
+      ³  ³  ÃÄ@const901  0/262  Ram=0
+      ³  ³  ÃÄ@MUL88  0/39  Ram=2
+      ³  ³  ÃÄ@const905  0/224  Ram=0
+      ³  ³  ÃÄ@MUL88  0/39  Ram=2
+      ³  ³  ÃÄ@MUL88  0/39  Ram=2
+      ³  ³  ÃÄ@MUL88  0/39  Ram=2
+      ³  ³  ÃÄ@MUL88  0/39  Ram=2
       ³  ³  ÀÄglcd_pixel  0/171  Ram=6
       ³  ³     ÀÄ*
       ³  ÀÄglcd_text57  0/215  Ram=21
-      ³     ÃÄ@MUL88  0/39  Ram=2
-      ³     ÃÄ@const901  0/262  Ram=0
-      ³     ÃÄ@MUL88  0/39  Ram=2
-      ³     ÃÄ@const905  0/224  Ram=0
-      ³     ÃÄ@MUL88  0/39  Ram=2
-      ³     ÃÄ@MUL88  0/39  Ram=2
-      ³     ÃÄ@MUL88  0/39  Ram=2
-      ³     ÃÄ@MUL88  0/39  Ram=2
-      ³     ÀÄglcd_pixel  0/171  Ram=6
-      ³        ÀÄ*
+      ³     ÀÄ*
       ÃÄcriar_comida  0/81  Ram=3
       ³  ÃÄrand  0/126  Ram=4
       ³  ³  ÃÄ@MUL3232  (Inline)  Ram=13
@@ -80,7 +82,7 @@
       ³        ÀÄ*
       ÃÄfillCell  0/52  Ram=7
       ³  ÀÄ*
-      ÃÄgameover  0/42  Ram=1
+      ÃÄgameover  0/43  Ram=1
       ³  ÃÄglcd_fillScreen  0/91  Ram=4
       ³  ³  ÀÄ*
       ³  ÃÄdrawGrid  0/59  Ram=0
@@ -89,28 +91,26 @@
       ³  ³  ÀÄ*
       ³  ÀÄ@delay_ms1  0/21  Ram=1
       ÃÄ@goto12219  1/8  Ram=0
-      ÃÄgameover  0/42  Ram=1
+      ÃÄgameover  0/43  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/42  Ram=1
+      ÃÄgameover  0/43  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/42  Ram=1
+      ÃÄgameover  0/43  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/42  Ram=1
+      ÃÄgameover  0/43  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/42  Ram=1
-      ³  ÀÄ*
-      ÃÄfillCell  0/52  Ram=7
+      ÃÄgameover  0/43  Ram=1
       ³  ÀÄ*
       ÃÄfillCell  0/52  Ram=7
       ³  ÀÄ*
-      ÃÄgameover  0/42  Ram=1
+      ÃÄfillCell  0/52  Ram=7
       ³  ÀÄ*
       ÃÄcriar_comida  0/81  Ram=3
       ³  ÀÄ*
       ÃÄ@DIV88  0/23  Ram=3
       ÃÄ@DIV88  0/23  Ram=3
-      ÃÄwriteScore  0/46  Ram=0
+      ÃÄ@DIV88  0/23  Ram=3
+      ÃÄ@DIV88  0/23  Ram=3
+      ÃÄwriteScore  0/49  Ram=0
       ³  ÀÄ*
-      ÃÄ@DIV1616  0/39  Ram=5
-      ÃÄ@delay_ms1  0/21  Ram=1
       ÀÄ@delay_ms1  0/21  Ram=1
