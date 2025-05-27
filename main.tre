@@ -1,5 +1,5 @@
 ÀÄmain
-   ÀÄMAIN  1/544  Ram=3
+   ÀÄMAIN  1/547  Ram=3
       ÃÄ@cinit1  (Inline)  Ram=0
       ÃÄglcd_init  0/102  Ram=1
       ³  ÃÄglcd_writeByte  0/44  Ram=2
@@ -82,7 +82,7 @@
       ³        ÀÄ*
       ÃÄfillCell  0/52  Ram=7
       ³  ÀÄ*
-      ÃÄgameover  0/43  Ram=1
+      ÃÄgameover  0/42  Ram=1
       ³  ÃÄglcd_fillScreen  0/91  Ram=4
       ³  ³  ÀÄ*
       ³  ÃÄdrawGrid  0/59  Ram=0
@@ -91,19 +91,21 @@
       ³  ³  ÀÄ*
       ³  ÀÄ@delay_ms1  0/21  Ram=1
       ÃÄ@goto12219  1/8  Ram=0
-      ÃÄgameover  0/43  Ram=1
+      ÃÄgameover  0/42  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/43  Ram=1
+      ÃÄgameover  0/42  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/43  Ram=1
+      ÃÄgameover  0/42  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/43  Ram=1
+      ÃÄgameover  0/42  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  0/43  Ram=1
+      ÃÄgameover  0/42  Ram=1
+      ³  ÀÄ*
+      ÃÄfillCell  0/52  Ram=7
       ³  ÀÄ*
       ÃÄfillCell  0/52  Ram=7
       ³  ÀÄ*
-      ÃÄfillCell  0/52  Ram=7
+      ÃÄgameover  0/42  Ram=1
       ³  ÀÄ*
       ÃÄcriar_comida  0/81  Ram=3
       ³  ÀÄ*
