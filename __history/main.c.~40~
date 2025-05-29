@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node yapýsý
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Queue yapýsý
+typedef struct {
+    Node* front;
+    Node* rear;
+} Queue;
+
+// Baþlatma
+void initQueue(Queue* q) {
+    q->front = q->rear = NULL;
+}
+
+// Eleman ekle (enqueue)
+void enqueue(Queue* q, int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode) {
+        printf("Bellek ayrilamadi!\n");
+        return;
+    }
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (q->rear == NULL) {
+        q->front = q->rear = newNode;
+    } else {
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+}
+
+// Eleman çýkar (dequeue)
+int dequeue(Queue* q) {
+    if (q->front == NULL) {
+        printf("Kuyruk bos!\n");
+        return -1;
+    }
+
+    Node* temp = q->front;
+    int val = temp->data;
+    q->front = q->front->next;
+
+    if (q->front == NULL) q->rear = NULL;
+
+    free(temp);
+    return val;
+}
+
+// En öndeki elemana bak (peek)
+int peek(Queue* q) {
+    if (q->front == NULL) {
+        printf("Kuyruk bos!\n");
+        return -1;
+    }
+    return q->front->data;
+}
+
+// Boþ mu?
+int isEmpty(Queue* q) {
+    return (q->front == NULL);
+}
+
+// Kuyruðu temizle
+void freeQueue(Queue* q) {
+    while (!isEmpty(q)) {
+        dequeue(q);
+    }
+}
+
+// Test için main fonksiyonu
+int main() {
+    Queue q;
+    initQueue(&q);
+
+    enqueue(&q, 10);
+    enqueue(&q, 20);
+    enqueue(&q, 30);
+
+    printf("Front: %d\n", peek(&q));
+
+    while (!isEmpty(&q)) {
+        printf("Dequeued: %d\n", dequeue(&q));
+    }
+
+    freeQueue(&q);
+    return 0;
+}

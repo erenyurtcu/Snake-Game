@@ -30,20 +30,30 @@ uchar score = 0;
 uchar best_score = 0;
 char score_txt[11] = "Score: 00";
 char best_score_txt[10] = "Best: 00";
-char gayover[14] = "GAMEOVER !!!";
+char gayover[14]= "GAMEOVER !!!";
 char win_msg[] = "YOU WON!";
-char splash_text[] = "SNAKE GAME";
 uchar i;
 
 int1 isFirstStart = 1;
 
-void fillCell(signed int gx, signed int gy, int1 color) {
-   if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
-   uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
-   uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
-   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
-      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
-         glcd_pixel(px + dx, py + dy, color);
+// ?? Açýlýþ ekraný
+void showSplashScreen() {
+   glcd_fillScreen(0);
+   glcd_text57(20, 15, "SNAKE GAME", 1, 1);
+
+   // Basit yýlan figürü
+   fillCell(1, 5, 1);
+   fillCell(2, 5, 1);
+   fillCell(2, 6, 1);
+   fillCell(3, 6, 1);
+   fillCell(4, 6, 1);
+   fillCell(5, 6, 1);
+   fillCell(5, 5, 1);
+   fillCell(6, 5, 1);
+   fillCell(6, 4, 1);
+   fillCell(7, 4, 1);
+
+   delay_ms(2500);
 }
 
 void screenWipeDown() {
@@ -64,6 +74,15 @@ void drawGrid() {
       uchar y = GRID_ORIGIN_Y + r * GRID_SIZE;
       glcd_line(GRID_ORIGIN_X, y, GRID_ORIGIN_X + GRID_COLS * GRID_SIZE, y, 1);
    }
+}
+
+void fillCell(signed int gx, signed int gy, int1 color) {
+   if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
+   uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
+   uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
+   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
+      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
+         glcd_pixel(px + dx, py + dy, color);
 }
 
 void clearScoreArea() {
@@ -129,12 +148,6 @@ void winScreen() {
    dir = 2;
 }
 
-void showSplashScreen() {
-   glcd_fillScreen(0);
-   glcd_text57(20, 25, splash_text, 1, 1);
-   delay_ms(2000);
-}
-
 void main() {
    glcd_init(ON);
    glcd_fillScreen(0);
@@ -152,6 +165,7 @@ Start:
    writeScore();
    criar_comida();
 
+   // Baþlangýçta yýlan soldan baþlar, segmentler sola taþar
    for (i = 0; i < LENGTH_SNAKE; i++) {
       setX(i, posX - i);
       setY(i, posY);

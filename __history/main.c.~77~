@@ -131,8 +131,20 @@ void winScreen() {
 
 void showSplashScreen() {
    glcd_fillScreen(0);
-   glcd_text57(20, 25, splash_text, 1, 1);
-   delay_ms(2000);
+   glcd_text57(20, 15, splash_text, 1, 1);
+
+   fillCell(1, 5, 1);
+   fillCell(2, 5, 1);
+   fillCell(2, 6, 1);
+   fillCell(3, 6, 1);
+   fillCell(4, 6, 1);
+   fillCell(5, 6, 1);
+   fillCell(5, 5, 1);
+   fillCell(6, 5, 1);
+   fillCell(6, 4, 1);
+   fillCell(7, 4, 1);
+
+   delay_ms(2500);
 }
 
 void main() {

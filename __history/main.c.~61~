@@ -24,27 +24,16 @@ uchar snakeY2[50];
 #define setY(i,val) ((i < 50) ? (snakeY[i]=(val)) : (snakeY2[(i)-50]=(val)))
 
 uchar dir = 2;
-uchar food[2], LENGTH_SNAKE = 5;
-uchar posX = 0, posY = 2;
+uchar food[2], LENGTH_SNAKE = 70;
+uchar posX = 1, posY = 2;
 uchar score = 0;
 uchar best_score = 0;
 char score_txt[11] = "Score: 00";
 char best_score_txt[10] = "Best: 00";
-char gayover[14] = "GAMEOVER !!!";
-char win_msg[] = "YOU WON!";
-char splash_text[] = "SNAKE GAME";
+char gayover[14]= "GAMEOVER !!!";
 uchar i;
 
 int1 isFirstStart = 1;
-
-void fillCell(signed int gx, signed int gy, int1 color) {
-   if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
-   uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
-   uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
-   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
-      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
-         glcd_pixel(px + dx, py + dy, color);
-}
 
 void screenWipeDown() {
    for (uchar y = 0; y < 64; y++) {
@@ -64,6 +53,14 @@ void drawGrid() {
       uchar y = GRID_ORIGIN_Y + r * GRID_SIZE;
       glcd_line(GRID_ORIGIN_X, y, GRID_ORIGIN_X + GRID_COLS * GRID_SIZE, y, 1);
    }
+}
+
+void fillCell(uchar gx, uchar gy, int1 color) {
+   uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
+   uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
+   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
+      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
+         glcd_pixel(px + dx, py + dy, color);
 }
 
 void clearScoreArea() {
@@ -97,12 +94,11 @@ void criar_comida() {
 }
 
 void gameover() {
-   LENGTH_SNAKE = 5;
-   posX = 0;
+   LENGTH_SNAKE = 70;
+   posX = 1;
    posY = 2;
    score = 0;
-   score_txt[7] = '0';
-   score_txt[8] = '0';
+   score_txt[7] = score_txt[8] = '0';
    dir = 2;
 
    glcd_fillScreen(0);
@@ -113,28 +109,6 @@ void gameover() {
    drawGrid();
 }
 
-void winScreen() {
-   glcd_fillScreen(0);
-   glcd_text57(35, 35, win_msg, 1, 1);
-   delay_ms(2500);
-   screenWipeDown();
-   glcd_fillScreen(0);
-   drawGrid();
-   LENGTH_SNAKE = 5;
-   posX = 0;
-   posY = 2;
-   score = 0;
-   score_txt[7] = '0';
-   score_txt[8] = '0';
-   dir = 2;
-}
-
-void showSplashScreen() {
-   glcd_fillScreen(0);
-   glcd_text57(20, 25, splash_text, 1, 1);
-   delay_ms(2000);
-}
-
 void main() {
    glcd_init(ON);
    glcd_fillScreen(0);
@@ -142,7 +116,6 @@ void main() {
 
 Start:
    if (isFirstStart) {
-      showSplashScreen();
       screenWipeDown();
       isFirstStart = 0;
    }
@@ -153,7 +126,7 @@ Start:
    criar_comida();
 
    for (i = 0; i < LENGTH_SNAKE; i++) {
-      setX(i, posX - i);
+      setX(i, posX - (LENGTH_SNAKE - 1 - i));
       setY(i, posY);
       fillCell(getX(i), getY(i), 1);
    }
@@ -191,8 +164,8 @@ Start:
 
       if (posX == food[0] && posY == food[1]) {
          LENGTH_SNAKE++;
-         if (LENGTH_SNAKE >= 100) {
-            winScreen(); goto Start;
+         if (LENGTH_SNAKE >= 100) { // maksimum segment
+            gameover(); goto Start;
          }
          criar_comida();
          score++;
