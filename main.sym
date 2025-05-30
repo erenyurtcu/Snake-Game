@@ -201,7 +201,7 @@ Project Directory:
     C:\Users\Eren\Documents\CCS C Projects\snake_project\
 
 Project Files:
-    main.c                                                  [30-May-25 22:41  CRC=37FA34C6]
+    main.c                                                  [30-May-25 22:52  CRC=D4BEF856]
     ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h [18-Nis-14 16:56  CRC=4F277C97]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h [08-Haz-11 14:39  CRC=0B6669CF]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h [16-Tem-10 09:27  CRC=897CEC6C]
@@ -210,7 +210,7 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c  [18-Kas-05 07:48  CRC=C6ACD324]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h [31-Tem-07 13:24  CRC=4E4534F4]
 
-Source signature=12866D57
+Source signature=AF4B30E7
 
 Units:
     main (main)

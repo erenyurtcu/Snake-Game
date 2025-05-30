@@ -1,4 +1,4 @@
-CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
+CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:52
 
                Filename:   C:\Users\Eren\Documents\CCS C Projects\snake_project\main.lst
 
@@ -4868,14 +4868,14 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 03A4:  MOVF   78,W
 03A5:  BSF    03.6
 03A6:  MOVWF  5D
-....................    int cycles = duration_ms * 1000L / 2000;  // 500Hz dalga 
+....................    int cycles = duration_ms * 1000L / 2000; 
 ....................    for (int i = 0; i < cycles; i++) { 
 03A7:  CLRF   5E
 03A8:  MOVF   5D,W
 03A9:  SUBWF  5E,W
 03AA:  BTFSC  03.0
 03AB:  GOTO   3C2
-....................       output_low(BUZZER_PIN);    // aktif LOW › ses 
+....................       output_low(BUZZER_PIN);    // 0 --> sound on 
 03AC:  BSF    03.5
 03AD:  BCF    03.6
 03AE:  BCF    06.3
@@ -4887,7 +4887,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 03B3:  MOVWF  5F
 03B4:  BCF    03.6
 03B5:  CALL   338
-....................       output_high(BUZZER_PIN);   // sessiz 
+....................       output_high(BUZZER_PIN);   // 1 --> sound off 
 03B6:  BSF    03.5
 03B7:  BCF    06.3
 03B8:  BCF    03.5
@@ -4902,7 +4902,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 03C0:  INCF   5E,F
 03C1:  GOTO   3A8
 ....................    } 
-....................    output_high(BUZZER_PIN);  // sessiz býrak 
+....................    output_high(BUZZER_PIN); 
 03C2:  BSF    03.5
 03C3:  BCF    03.6
 03C4:  BCF    06.3
@@ -4923,7 +4923,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 .................... } 
 ....................  
 .................... void error_beep() { 
-....................       buzzer_beep(1000); 
+....................    buzzer_beep(1000); 
 *
 09CB:  MOVLW  E8
 09CC:  BSF    03.6
@@ -4932,7 +4932,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 09CF:  BCF    03.6
 09D0:  CALL   38B
 09D1:  BSF    0A.3
-....................       delay_ms(200);  
+....................    delay_ms(200);  
 09D2:  MOVLW  C8
 09D3:  BSF    03.6
 09D4:  MOVWF  5F
@@ -4940,7 +4940,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 09D6:  BCF    03.6
 09D7:  CALL   338
 09D8:  BSF    0A.3
-....................       buzzer_beep(1000); 
+....................    buzzer_beep(1000); 
 09D9:  MOVLW  E8
 09DA:  BSF    03.6
 09DB:  MOVWF  5C
@@ -4948,7 +4948,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 09DD:  BCF    03.6
 09DE:  CALL   38B
 09DF:  BSF    0A.3
-....................       delay_ms(200);  
+....................    delay_ms(200);  
 09E0:  MOVLW  C8
 09E1:  BSF    03.6
 09E2:  MOVWF  5F
@@ -4956,7 +4956,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 09E4:  BCF    03.6
 09E5:  CALL   338
 09E6:  BSF    0A.3
-....................       buzzer_beep(700); 
+....................    buzzer_beep(700); 
 09E7:  MOVLW  BC
 09E8:  BSF    03.6
 09E9:  MOVWF  5C
@@ -4964,7 +4964,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 09EB:  BCF    03.6
 09EC:  CALL   38B
 09ED:  BSF    0A.3
-....................       delay_ms(200);       
+....................    delay_ms(200);       
 09EE:  MOVLW  C8
 09EF:  BSF    03.6
 09F0:  MOVWF  5F
@@ -4993,7 +4993,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 0A3D:  MOVWF  50
 0A3E:  MOVLW  2C
 0A3F:  MOVWF  51
-....................    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; // Aralýklar 
+....................    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; 
 0A40:  MOVLW  32
 0A41:  MOVWF  52
 0A42:  MOVWF  53
@@ -5044,7 +5044,6 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 0A6B:  GOTO   24E
 ....................    } 
 .................... } 
-....................  
 ....................  
 .................... uchar snakeX[32]; 
 .................... uchar snakeY[32]; 
@@ -5212,7 +5211,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 0B44:  MOVWF  46
 0B45:  CLRF   47
 ....................  
-.................... // -------------------- GLCD -------------------- 
+.................... // glcd part 
 .................... void fillCell(signed int gx, signed int gy, int1 color) { 
 ....................    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return; 
 *
@@ -6111,7 +6110,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 06AA:  IORLW  01
 06AB:  MOVWF  72
 ....................          } 
-....................          buzzer_beep(100);  // Seçim onay sesi 
+....................          buzzer_beep(100);  // Confirmation beep 
 06AC:  MOVLW  64
 06AD:  BSF    03.6
 06AE:  MOVWF  5C
@@ -6167,13 +6166,13 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 0ABC:  MOVLW  07
 0ABD:  MOVWF  1C
 0ABE:  BCF    03.7
-....................    set_tris_b(0b00000111); // RB0-1-2 giriþ, RB3 çýkýþ 
+....................    set_tris_b(0b00000111); 
 *
 0B46:  MOVLW  07
 0B47:  BSF    03.5
 0B48:  BCF    03.6
 0B49:  MOVWF  06
-....................    output_high(BUZZER_PIN); // Baþta sessiz (aktif-LOW) 
+....................    output_high(BUZZER_PIN); 
 0B4A:  BCF    06.3
 0B4B:  BCF    03.5
 0B4C:  BSF    06.3
@@ -6903,7 +6902,7 @@ CCS PCM C Compiler, Version 5.025, 5967               30-May-25 22:41
 0DD6:  CALL   047
 ....................       } 
 ....................  
-....................       delay_ms(gameSettings.delay_time * 300); 
+....................       delay_ms(gameSettings.delay_time * 300); // game difficulty inverse proportion 
 0DD7:  MOVF   72,W
 0DD8:  ANDLW  03
 0DD9:  BSF    03.6

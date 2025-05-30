@@ -14,16 +14,16 @@
 #define GRID_ORIGIN_Y 0
 #define BUZZER_PIN PIN_B3
 
-// buzzer part
+// Buzzer functions
 void buzzer_beep(int duration_ms) {
-   int cycles = duration_ms * 1000L / 2000;
+   int cycles = duration_ms * 1000L / 2000;  // 500Hz tone
    for (int i = 0; i < cycles; i++) {
-      output_low(BUZZER_PIN);    // 0 --> sound on
+      output_low(BUZZER_PIN);    // Active LOW: sound on
       delay_us(1000);
-      output_high(BUZZER_PIN);   // 1 --> sound off
+      output_high(BUZZER_PIN);   // Sound off
       delay_us(1000);
    }
-   output_high(BUZZER_PIN);
+   output_high(BUZZER_PIN);  // Ensure silence
 }
 
 void short_beep() {
@@ -41,7 +41,7 @@ void error_beep() {
 
 void win_melody() {
    int notes[] = {200, 100, 100, 400, 200, 150, 600, 300};
-   int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0};
+   int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; // Delays between notes
 
    for (int i = 0; i < 8; i++) {
       buzzer_beep(notes[i]);
@@ -82,7 +82,7 @@ char easy[]   = "EASY";
 char medium[] = "MEDIUM";
 char hard[]   = "HARD";
 
-// glcd part
+// -------------------- GLCD --------------------
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
    uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
@@ -235,8 +235,8 @@ void selectDifficulty() {
 }
 
 void main() {
-   set_tris_b(0b00000111);
-   output_high(BUZZER_PIN);
+   set_tris_b(0b00000111); // RB0-1-2 input, RB3 output
+   output_high(BUZZER_PIN); // Initially silent (active-LOW)
 
    glcd_init(ON);
    glcd_fillScreen(0);
@@ -313,7 +313,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300); // game difficulty inverse proportion
+      delay_ms(gameSettings.delay_time * 300);
    }
 }
 

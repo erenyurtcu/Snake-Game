@@ -13,7 +13,7 @@ Stack size: 8
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  321   235  29  main.c
+  320   235  29  main.c
   672     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h
  1351   359  44  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h
@@ -22,7 +22,7 @@ Lines Stmts  %   Files
   643   224  27  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h
 ----- -----
- 3507   818 Total
+ 3506   818 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -57,21 +57,21 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     85   2    1    561  6.3  displayDifficulty
 0    167   5   19    851  8.5  selectDifficulty
 1    858  24    4   6467 14.9  MAIN
-1      8   0    0             @goto12380
-0     23   1    3             @DIV88
+1      8   0    0    106  1.3  @goto12380
+0     23   1    3    375  4.5  @DIV88
  Inline         0             @cinit1
 
 Program metrics:
-    Functions               24
+    Functions               26
     Statements              818
-    Comments                965
-    Volume (V)              27389
-    Difficulty (D)          124.0
-    Effort to implement (E) 3396997
-    Time to implement (T)   52 hours, 25 minutes
+    Comments                961
+    Volume (V)              28545
+    Difficulty (D)          130.0
+    Effort to implement (E) 3711009
+    Time to implement (T)   57 hours, 16 minutes
     Est Delivered Bugs (B)  8
-    Cyclomatic Complexity   70
-    Maintainability (MI)    57
+    Cyclomatic Complexity   71
+    Maintainability (MI)    78
 
  Segment     Used  Free
 -----------  ----  ----

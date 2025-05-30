@@ -313,7 +313,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300); // game difficulty inverse proportion
+      delay_ms(gameSettings.delay_time * 300);
    }
 }
 
