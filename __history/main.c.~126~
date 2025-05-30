@@ -1,0 +1,29 @@
+#include <16F877A.h>
+#fuses HS,NOWDT,NOPROTECT,NOLVP
+#use delay(clock=16000000)
+
+#define BUZZER_PIN PIN_B3
+
+void buzzer_beep(int duration_ms) {
+   int cycles = duration_ms * 1000L / 2000;  // 500Hz için 2ms per cycle
+   for (int i = 0; i < cycles; i++) {
+      output_high(BUZZER_PIN);
+      delay_us(1000);  // HIGH 1ms
+      output_low(BUZZER_PIN);
+      delay_us(1000);  // LOW 1ms
+   }
+   output_low(BUZZER_PIN); // Son olarak sesi kes
+}
+
+void main() {
+   set_tris_b(0b00000111); // RB3 output, diðerleri input
+   output_low(BUZZER_PIN); // Baþlangýçta sessiz
+
+   delay_ms(1000); // Baþlamadan önce 1 saniye bekle
+
+   while(TRUE) {
+      buzzer_beep(500); // 500ms bip sesi
+      delay_ms(1000);   // 1 saniye sessizlik
+   }
+}
+

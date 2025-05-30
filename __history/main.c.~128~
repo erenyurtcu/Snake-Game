@@ -1,0 +1,22 @@
+#include <16F877A.h>
+#fuses HS,NOWDT,NOPROTECT,NOLVP
+#use delay(clock=16000000)
+
+#define BUZZER PIN_B3
+
+void beep_ms(int duration) {
+   output_high(BUZZER);       // Baþlat
+   delay_ms(duration);        // Süre boyunca çalýþsýn
+   output_low(BUZZER);        // Sustur
+}
+
+void main() {
+   set_tris_b(0b11110111);    // RB3 output
+   output_low(BUZZER);        // Baþlangýçta sessiz
+
+   while(TRUE) {
+      beep_ms(200);           // 200 ms BÝP
+      delay_ms(800);          // Bekle
+   }
+}
+

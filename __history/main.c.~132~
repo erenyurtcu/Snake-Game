@@ -1,0 +1,18 @@
+#include <16F877A.h>
+#fuses HS,NOWDT,NOPROTECT,NOLVP
+#use delay(clock=16000000)
+
+#define BUZZER_PIN PIN_B3
+
+void main() {
+   set_tris_b(0b11110111); // RB3 çýkýþ
+   output_low(BUZZER_PIN); // Baþta kapalý
+
+   while(TRUE) {
+      output_high(BUZZER_PIN);  // Aç
+      delay_ms(200);
+      output_low(BUZZER_PIN);   // Kapat
+      delay_ms(800);
+   }
+}
+

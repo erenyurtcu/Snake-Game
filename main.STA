@@ -1,6 +1,6 @@
 
-ROM used:   3375/8192 (41%)
-            3377/8192 (41%) including unused fragments
+ROM used:   3519/8192 (43%)
+            3541/8192 (43%) including unused fragments
 
             1.0 Average locations per line
             4.3 Average locations per statement
@@ -13,16 +13,16 @@ Stack size: 8
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  275   200  26  main.c
+  317   234  29  main.c
   672     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h
- 1351   359  46  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h
+ 1351   359  44  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h
   423     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\string.h
    28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\ctype.h
-  643   224  29  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c
+  643   224  27  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h
 ----- -----
- 3461   783 Total
+ 3503   817 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -31,49 +31,53 @@ Page ROM  %  RAM    Vol Diff  Functions:
  Inline        13             @MUL3232
 1    128   4    4    101  3.8  rand
 0     39   1    5             @DIV1616
-1     25   1    5             @MUL1616
-0    262   8    0             @const901
-0    224   7    0             @const905
-0    122   4    1    555  3.4  glcd_init
-0    189   6    6    734  7.1  glcd_pixel
+0     23   1    5             @MUL1616
+0    262   7    0             @const901
+0    224   6    0             @const905
+0    122   3    1    555  3.4  glcd_init
+0    189   5    6    734  7.1  glcd_pixel
 0    272   8   15   1634  8.6  glcd_line
 0    249   7   21   1436  9.2  glcd_text57
-0    121   4    4    498  4.8  glcd_fillScreen
+0    121   3    4    498  4.8  glcd_fillScreen
 0     50   1    2    247  3.2  glcd_writeByte
- Inline         2    410  3.1  glcd_readByte
+ Inline         2    412  3.0  glcd_readByte
+0     61   2    4    235  4.5  buzzer_beep
+0      6   0    0     17  0.8  short_beep
+ Inline         0    123  3.0  error_beep
+ Inline         0    102  2.9  win_melody
 1     84   2    5    587  8.5  fillCell
 0     35   1    0    212  4.0  screenWipeDown
-0     63   2    0    469  5.5  drawGrid
+1     71   2    0    469  5.5  drawGrid
  Inline         0    188  4.0  clearScoreArea
-0     54   2    0    123  1.7  writeScore
+1     60   2    0    123  1.7  writeScore
 1    116   3    3    679  9.5  criar_comida
-1     61   2    1    336  2.8  gameover
-1     62   2    1    336  2.8  winScreen
+1     87   2    1    354  2.8  gameover
+1     81   2    1    354  2.8  winScreen
 0     32   1    1     88  1.7  showSplashScreen
-0     85   3    1    561  6.3  displayDifficulty
-0    160   5   19    778  8.5  selectDifficulty
-1    845  25    4   6160 14.9  MAIN
-1      8   0    0    561  6.3  @goto12340
-0     23   1    3    574  7.0  @DIV88
- Inline         0   6160 14.9  @cinit1
+0     85   2    1    561  6.3  displayDifficulty
+0    167   5   19    851  8.5  selectDifficulty
+1    858  24    4   6467 14.9  MAIN
+1      8   0    0             @goto12388
+0     23   1    3             @DIV88
+ Inline         0             @cinit1
 
 Program metrics:
-    Functions               23
-    Statements              783
-    Comments                961
-    Volume (V)              36087
-    Difficulty (D)          141.2
-    Effort to implement (E) 5096769
-    Time to implement (T)   78 hours, 39 minutes
-    Est Delivered Bugs (B)  10
-    Cyclomatic Complexity   99
-    Maintainability (MI)    47
+    Functions               24
+    Statements              817
+    Comments                966
+    Volume (V)              26881
+    Difficulty (D)          124.7
+    Effort to implement (E) 3353245
+    Time to implement (T)   51 hours, 45 minutes
+    Est Delivered Bugs (B)  7
+    Cyclomatic Complexity   71
+    Maintainability (MI)    57
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00003     4  0  
-00004-007FF  2042  2  
-00800-00FFF  1329  719  
+00004-007FF  2022  22  
+00800-00FFF  1493  555  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 

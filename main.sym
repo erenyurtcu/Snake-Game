@@ -1,8 +1,8 @@
-004-005 @READ_PROGRAM_MEMORY8.P1
-004-005 @WRITE_PROGRAM_MEMORY8.P2
+004-005 @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
 008     PSP_DATA
-015     CCP_1_LOW
 015     CCP_1
+015     CCP_1_LOW
 016     CCP_1_HIGH
 01B     CCP_2
 01B     CCP_2_LOW
@@ -44,24 +44,25 @@
 143-147 hard
 148     MAIN.tailX
 149     MAIN.tailY
-14A-15B selectDifficulty.title
-14A     @DIV88.P1
 14A     clearScoreArea.x
-14A     criar_comida.valid
 14A     screenWipeDown.y
+14A     criar_comida.valid
+14A-15B selectDifficulty.title
 14A     glcd_init.mode
+14A     win_melody.i
+14A     @DIV88.P1
 14A     drawGrid.c
+14A     error_beep.i
 14A     gameover.@SCRATCH1
 14A     winScreen.@SCRATCH1
 14A     showSplashScreen.@SCRATCH1
 14A     MAIN.@SCRATCH1
-14B     criar_comida.j
-14B     screenWipeDown.x
-14B     clearScoreArea.y
 14B     @DIV88.P1
 14B     drawGrid.x
+14B     clearScoreArea.y
+14B     criar_comida.j
+14B     screenWipeDown.x
 14B     MAIN.@SCRATCH2
-14C-14D @MUL1616.P1
 14C     fillCell.gx
 14C     drawGrid.r
 14C-14F @MUL3232.P1
@@ -69,30 +70,25 @@
 14C     criar_comida.@SCRATCH1
 14C     MAIN.@SCRATCH3
 14C     @DIV88.@SCRATCH1
-14D     fillCell.gy
 14D     drawGrid.y
+14D     fillCell.gy
 14D     rand.@SCRATCH2
 14D     criar_comida.@SCRATCH2
 14D     MAIN.@SCRATCH4
 14E     fillCell.color
 14E     glcd_line.x1
-14E-14F @MUL1616.P1
 14E     rand.@SCRATCH3
-14F     fillCell.px
 14F     glcd_line.y1
-14F-150 @DIV1616.P1
+14F     fillCell.px
 14F     rand.@SCRATCH4
+150-153 @MUL3232.P1
 150     fillCell.py
 150     glcd_line.x2
-150-153 @MUL3232.P1
-150     @MUL1616.@SCRATCH1
-151-152 @DIV1616.P1
-151     fillCell.dx
 151     glcd_line.y2
+151     fillCell.dx
 152     fillCell.dy
 152     glcd_line.color
 153     glcd_line.x
-153     @DIV1616.@SCRATCH1
 153     fillCell.@SCRATCH1
 154     glcd_line.y
 154     @MUL3232.@SCRATCH1
@@ -108,21 +104,32 @@
 159-15A glcd_line.p
 15B     glcd_line.i
 15C     displayDifficulty.index
+15C     buzzer_beep.duration_ms
 15C     glcd_fillScreen.color
 15C     glcd_line.@SCRATCH1
 15C     selectDifficulty.@SCRATCH1
 15D     glcd_fillScreen.i
+15D     buzzer_beep.cycles
 15D     displayDifficulty.x
-15D     @delay_ms1.P1
-15E     glcd_fillScreen.j
+15E     buzzer_beep.i
 15E     displayDifficulty.y
+15E     glcd_fillScreen.j
+15F-160 @MUL1616.P1
+15F     @delay_ms1.P2
 15F     glcd_text57.x
 15F     glcd_fillScreen.@SCRATCH1
+15F     buzzer_beep.@SCRATCH1
 160     glcd_text57.y
+160     buzzer_beep.@SCRATCH2
+161-162 @MUL1616.P1
+161-162 @DIV1616.P2
 161-162 glcd_text57.textptr
 163     glcd_text57.size
+163-164 @DIV1616.P1
+163     @MUL1616.@SCRATCH1
 164     glcd_text57.color
 165     glcd_text57.i
+165     @DIV1616.@SCRATCH1
 166     glcd_text57.j
 167     glcd_text57.k
 168     glcd_text57.l
@@ -156,39 +163,43 @@ ROM Allocation:
 000245  glcd_fillScreen
 0002BE  glcd_init
 000338  @delay_ms1
-00034D  glcd_pixel
-000383  glcd_readByte
-00040A  glcd_text57
-000503  showSplashScreen
-000523  screenWipeDown
-000546  displayDifficulty
-00059B  selectDifficulty
-00063B  glcd_line
-00074B  drawGrid
-00078A  clearScoreArea
-00078A  writeScore
-0007C0  @DIV1616
-0007E7  @DIV88
-000800  rand
-000817  @MUL3232
-000880  fillCell
-0008D4  criar_comida
-000948  gameover
-000985  winScreen
-0009C3  @MUL1616
-0009DC  MAIN
-0009DC  @cinit1
-0009F3  @cinit2
-000D29  @goto12340
+00034D  @MUL1616
+000364  @DIV1616
+00038B  buzzer_beep
+0003C8  glcd_pixel
+0003FE  glcd_readByte
+000485  glcd_text57
+00057E  showSplashScreen
+00059E  screenWipeDown
+0005C1  displayDifficulty
+000616  short_beep
+00061C  selectDifficulty
+0006C3  glcd_line
+0007D3  @DIV88
+000800  drawGrid
+000847  clearScoreArea
+000847  writeScore
+000883  rand
+00089A  @MUL3232
+000903  fillCell
+000957  criar_comida
+0009CB  gameover
+0009CB  error_beep
+000A22  win_melody
+000A22  winScreen
+000A73  MAIN
+000A73  @cinit1
+000A8A  @cinit2
+000DCD  @goto12388
 0136  StrtoulGO
 0136  StrtolGO
-0A93  Start
+0B32  Start
 
 Project Directory:
     C:\Users\Eren\Documents\CCS C Projects\snake_project\
 
 Project Files:
-    main.c                                                  [30-May-25 16:58  CRC=EC41B7B3]
+    main.c                                                  [30-May-25 21:32  CRC=B2C91A0C]
     ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h [18-Nis-14 16:56  CRC=4F277C97]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h [08-Haz-11 14:39  CRC=0B6669CF]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h [16-Tem-10 09:27  CRC=897CEC6C]
@@ -197,7 +208,7 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c  [18-Kas-05 07:48  CRC=C6ACD324]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h [31-Tem-07 13:24  CRC=4E4534F4]
 
-Source signature=C6CDF044
+Source signature=8D55529D
 
 Units:
     main (main)

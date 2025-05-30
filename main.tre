@@ -1,5 +1,5 @@
 ÀÄmain
-   ÀÄMAIN  1/845  Ram=4
+   ÀÄMAIN  1/858  Ram=4
       ÃÄ@cinit1  (Inline)  Ram=0
       ÃÄglcd_init  0/122  Ram=1
       ³  ÃÄglcd_writeByte  0/50  Ram=2
@@ -24,6 +24,11 @@
       ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ÀÄ*
       ÃÄ@delay_ms1  0/21  Ram=1
+      ÃÄbuzzer_beep  0/61  Ram=4
+      ³  ÃÄ@MUL1616  0/23  Ram=5
+      ³  ÃÄ@DIV1616  0/39  Ram=5
+      ³  ÃÄ@delay_ms1  0/21  Ram=1
+      ³  ÀÄ@delay_ms1  0/21  Ram=1
       ÃÄshowSplashScreen  0/32  Ram=1
       ³  ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ³  ÀÄ*
@@ -47,7 +52,7 @@
       ³  ÃÄglcd_pixel  0/189  Ram=6
       ³  ³  ÀÄ*
       ³  ÀÄ@delay_ms1  0/21  Ram=1
-      ÃÄselectDifficulty  0/160  Ram=19
+      ÃÄselectDifficulty  0/167  Ram=19
       ³  ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ³  ÀÄ*
       ³  ÃÄglcd_text57  0/249  Ram=21
@@ -63,14 +68,21 @@
       ³  ³     ÀÄ*
       ³  ÃÄdisplayDifficulty  0/85  Ram=1
       ³  ³  ÀÄ*
+      ³  ÃÄshort_beep  0/6  Ram=0
+      ³  ³  ÀÄbuzzer_beep  0/61  Ram=4
+      ³  ³     ÀÄ*
       ³  ÃÄ@delay_ms1  0/21  Ram=1
       ³  ÃÄdisplayDifficulty  0/85  Ram=1
       ³  ³  ÀÄ*
+      ³  ÃÄshort_beep  0/6  Ram=0
+      ³  ³  ÀÄ*
       ³  ÃÄ@delay_ms1  0/21  Ram=1
+      ³  ÃÄbuzzer_beep  0/61  Ram=4
+      ³  ³  ÀÄ*
       ³  ÀÄ@delay_ms1  0/21  Ram=1
       ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ÀÄ*
-      ÃÄdrawGrid  0/63  Ram=0
+      ÃÄdrawGrid  1/71  Ram=0
       ³  ÃÄ@MUL88  0/41  Ram=2
       ³  ÃÄglcd_line  0/272  Ram=15
       ³  ³  ÃÄ@MUL88  0/41  Ram=2
@@ -88,7 +100,7 @@
       ³  ÃÄ@MUL88  0/41  Ram=2
       ³  ÀÄglcd_line  0/272  Ram=15
       ³     ÀÄ*
-      ÃÄwriteScore  0/54  Ram=0
+      ÃÄwriteScore  1/60  Ram=0
       ³  ÃÄclearScoreArea  (Inline)  Ram=0
       ³  ³  ÀÄglcd_pixel  0/189  Ram=6
       ³  ³     ÀÄ*
@@ -111,7 +123,21 @@
       ³        ÀÄ*
       ÃÄfillCell  1/84  Ram=5
       ³  ÀÄ*
-      ÃÄgameover  1/61  Ram=1
+      ÃÄshort_beep  0/6  Ram=0
+      ³  ÀÄ*
+      ÃÄshort_beep  0/6  Ram=0
+      ³  ÀÄ*
+      ÃÄshort_beep  0/6  Ram=0
+      ³  ÀÄ*
+      ÃÄshort_beep  0/6  Ram=0
+      ³  ÀÄ*
+      ÃÄgameover  1/87  Ram=1
+      ³  ÃÄerror_beep  (Inline)  Ram=0
+      ³  ³  ÃÄbuzzer_beep  0/61  Ram=4
+      ³  ³  ³  ÀÄ*
+      ³  ³  ÃÄ@delay_ms1  0/21  Ram=1
+      ³  ³  ÀÄbuzzer_beep  0/61  Ram=4
+      ³  ³     ÀÄ*
       ³  ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ³  ÀÄ*
       ³  ÃÄglcd_text57  0/249  Ram=21
@@ -121,24 +147,30 @@
       ³  ³  ÀÄ*
       ³  ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ³  ÀÄ*
-      ³  ÀÄdrawGrid  0/63  Ram=0
+      ³  ÀÄdrawGrid  1/71  Ram=0
       ³     ÀÄ*
-      ÃÄ@goto12340  1/8  Ram=0
-      ÃÄgameover  1/61  Ram=1
+      ÃÄ@goto12388  1/8  Ram=0
+      ÃÄgameover  1/87  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  1/61  Ram=1
+      ÃÄgameover  1/87  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  1/61  Ram=1
+      ÃÄgameover  1/87  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  1/61  Ram=1
+      ÃÄgameover  1/87  Ram=1
       ³  ÀÄ*
-      ÃÄgameover  1/61  Ram=1
-      ³  ÀÄ*
-      ÃÄfillCell  1/84  Ram=5
+      ÃÄgameover  1/87  Ram=1
       ³  ÀÄ*
       ÃÄfillCell  1/84  Ram=5
       ³  ÀÄ*
-      ÃÄwinScreen  1/62  Ram=1
+      ÃÄfillCell  1/84  Ram=5
+      ³  ÀÄ*
+      ÃÄbuzzer_beep  0/61  Ram=4
+      ³  ÀÄ*
+      ÃÄwinScreen  1/81  Ram=1
+      ³  ÃÄwin_melody  (Inline)  Ram=0
+      ³  ³  ÃÄbuzzer_beep  0/61  Ram=4
+      ³  ³  ³  ÀÄ*
+      ³  ³  ÀÄ@delay_ms1  0/21  Ram=1
       ³  ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ³  ÀÄ*
       ³  ÃÄglcd_text57  0/249  Ram=21
@@ -148,7 +180,7 @@
       ³  ³  ÀÄ*
       ³  ÃÄglcd_fillScreen  0/121  Ram=4
       ³  ³  ÀÄ*
-      ³  ÀÄdrawGrid  0/63  Ram=0
+      ³  ÀÄdrawGrid  1/71  Ram=0
       ³     ÀÄ*
       ÃÄcriar_comida  1/116  Ram=3
       ³  ÀÄ*
@@ -156,8 +188,8 @@
       ÃÄ@DIV88  0/23  Ram=3
       ÃÄ@DIV88  0/23  Ram=3
       ÃÄ@DIV88  0/23  Ram=3
-      ÃÄwriteScore  0/54  Ram=0
+      ÃÄwriteScore  1/60  Ram=0
       ³  ÀÄ*
-      ÃÄ@MUL1616  1/25  Ram=5
+      ÃÄ@MUL1616  0/23  Ram=5
       ÃÄ@delay_ms1  0/21  Ram=1
       ÀÄ@delay_ms1  0/21  Ram=1

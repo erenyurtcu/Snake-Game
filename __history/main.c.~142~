@@ -1,0 +1,22 @@
+#include <16F877A.h>
+#fuses HS,NOWDT,NOPROTECT,NOLVP
+#use delay(clock=16000000)
+#define BUZZER_PIN PIN_B3
+
+void buzzer_beep() {
+   for(int i = 0; i < 1000; i++) {
+      output_high(BUZZER_PIN);
+      delay_us(500); // 1kHz
+      output_low(BUZZER_PIN);
+      delay_us(500);
+   }
+}
+
+void main() {
+   set_tris_b(0x00);  // Tüm B çýkýþ
+   while(TRUE) {
+      buzzer_beep();
+      delay_ms(2000);
+   }
+}
+

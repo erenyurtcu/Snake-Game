@@ -1,8 +1,7 @@
-C L "MAIN" 0 41 1 "FUNCTION"
 D G "__PCM__" 0 276 ""5.025""
 D G "__DEVICE__" 0 276 "877"
 D G "__DATE__" 0 276 ""30-May-25""
-D G "__TIME__" 0 276 ""16:58:05"" "Standard Header file for the PIC16F877A device ////////////////"
+D G "__TIME__" 0 276 ""21:32:31"" "Standard Header file for the PIC16F877A device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 v L "value" 1 37 "int8" `54 
 f B "set_tris_a" 1 37 "void(int8 value)" `53 
@@ -1347,71 +1346,88 @@ D G "GRID_COLS" 0 11 "10"
 D G "GRID_ROWS" 0 12 "10"
 D G "GRID_ORIGIN_X" 0 13 "0"
 D G "GRID_ORIGIN_Y" 0 14 "0"
-V G "snakeX" 0 16 "int8[32]" `983 
-V G "snakeY" 0 17 "int8[32]" `984 
-V G "snakeX2" 0 18 "int8[32]" `985 
-V G "snakeY2" 0 19 "int8[32]" `986 
-D G "getX" 0 21 "(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])"
-D G "getY" 0 22 "(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])"
-D G "setX" 0 23 "(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val)))"
-D G "setY" 0 24 "(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))"
-V G "dir" 0 26 "int8" `987 
-V G "food" 0 27 "int8[2]" `988 
-V G "LENGTH_SNAKE" 0 27 "int8" `989 
-V G "posX" 0 28 "int8" `990 
-V G "posY" 0 28 "int8" `991 
-V G "score" 0 29 "int8" `992 
-V G "best_score" 0 30 "int8" `993 
-V G "score_txt" 0 31 "int8[11]" `994 
-V G "best_score_txt" 0 32 "int8[10]" `995 
-V G "gameover_msg" 0 33 "int8[14]" `996 
-V G "win_msg" 0 34 "int8[1]" `997 
-V G "splash_text" 0 35 "int8[1]" `998 
-V G "i" 0 36 "int8" `999 
-V G "isFirstStart" 0 38 "int1" `1000 
-V G "difficulty_index" 0 39 "int8" `1001 
-V G "gameSettings" 0 44 "{int2 delay_time}" `1004  "? RAM'de tutulan yazýlar (const DEÐÝL!)"
-V G "easy" 0 47 "int8[1]" `1005 
-V G "medium" 0 48 "int8[1]" `1006 
-V G "hard" 0 49 "int8[1]" `1007 
-V L "gx" 0 51 "sint8" `1009 
-V L "gy" 0 51 "sint8" `1010 
-V L "color" 0 51 "int8" `1011 
-F G "fillCell" 0 51 "void(sint8 gx,sint8 gy,int8 color)" `1008 
-V L "px" 0 53 "int8" `1012 
-V L "py" 0 54 "int8" `1013 
-V L "dx" 0 55 "int8" `1014 
-V L "dy" 0 56 "int8" `1015 
-F G "screenWipeDown" 0 60 "void()" `1016 
-V L "y" 0 61 "int8" `1017 
-V L "x" 0 62 "int8" `1018 
-F G "drawGrid" 0 69 "void()" `1019 
-V L "c" 0 70 "int8" `1020 
-V L "x" 0 71 "int8" `1021 
-V L "r" 0 74 "int8" `1022 
-V L "y" 0 75 "int8" `1023 
-F G "clearScoreArea" 0 80 "void()" `1024 
-V L "x" 0 81 "int8" `1025 
-V L "y" 0 82 "int8" `1026 
-F G "writeScore" 0 88 "void()" `1027 
-F G "criar_comida" 0 94 "void()" `1028 
-V L "valid" 0 95 "int8" `1029 
-V L "j" 0 100 "int8" `1030 
-F G "gameover" 0 110 "void()" `1031 
-F G "winScreen" 0 127 "void()" `1032 
-F G "showSplashScreen" 0 143 "void()" `1033 
-V L "index" 0 149 "int8" `1035 
-F G "displayDifficulty" 0 149 "void(int8 index)" `1034 
-V L "x" 0 150 "int8" `1036 
-V L "y" 0 151 "int8" `1037 
-F G "selectDifficulty" 0 162 "void()" `1038 
-V L "title" 0 163 "int8[1]" `1039 
-C L "selectDifficulty" 0 41 1 "FUNCTION"
-C L "selectDifficulty" 0 41 1 "FUNCTION"
-C L "selectDifficulty" 0 41 1 "FUNCTION"
-F G "MAIN" 0 197 "void()" `1040 
-V L "tailX" 0 235 "int8" `1045 
-V L "tailY" 0 235 "int8" `1046 
+D G "BUZZER_PIN" 0 15 "PIN_B3" "BUZZER pin tanýmý"
+C L "buzzer_beep" 0 17 1 "FUNCTION"
+V L "duration_ms" 0 18 "int8" `984 
+F G "buzzer_beep" 0 18 "void(int8 duration_ms)" `983 
+V L "cycles" 0 19 "int8" `985 
+C L "buzzer_beep" 0 17 1 "FUNCTION"
+V L "i" 0 20 "int8" `986 
+C L "buzzer_beep" 0 17 1 "FUNCTION"
+C L "buzzer_beep" 0 17 1 "FUNCTION"
+C L "buzzer_beep" 0 17 1 "FUNCTION"
+F G "short_beep" 0 29 "void()" `987 
+F G "error_beep" 0 33 "void()" `988 
+V L "i" 0 34 "int8" `989 
+C L "error_beep" 0 17 1 "FUNCTION"
+F G "win_melody" 0 41 "void()" `990 
+V L "i" 0 42 "int8" `991 
+V G "snakeX" 0 49 "int8[32]" `992 
+V G "snakeY" 0 50 "int8[32]" `993 
+V G "snakeX2" 0 51 "int8[32]" `994 
+V G "snakeY2" 0 52 "int8[32]" `995 
+D G "getX" 0 54 "(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])"
+D G "getY" 0 55 "(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])"
+D G "setX" 0 56 "(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val)))"
+D G "setY" 0 57 "(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))"
+V G "dir" 0 59 "int8" `996 
+V G "food" 0 60 "int8[2]" `997 
+V G "LENGTH_SNAKE" 0 60 "int8" `998 
+V G "posX" 0 61 "int8" `999 
+V G "posY" 0 61 "int8" `1000 
+V G "score" 0 62 "int8" `1001 
+V G "best_score" 0 63 "int8" `1002 
+V G "score_txt" 0 64 "int8[11]" `1003 
+V G "best_score_txt" 0 65 "int8[10]" `1004 
+V G "gameover_msg" 0 66 "int8[14]" `1005 
+V G "win_msg" 0 67 "int8[1]" `1006 
+V G "splash_text" 0 68 "int8[1]" `1007 
+V G "i" 0 69 "int8" `1008 
+V G "isFirstStart" 0 71 "int1" `1009 
+V G "difficulty_index" 0 72 "int8" `1010 
+V G "gameSettings" 0 76 "{int2 delay_time}" `1013 
+V G "easy" 0 78 "int8[1]" `1014 
+V G "medium" 0 79 "int8[1]" `1015 
+V G "hard" 0 80 "int8[1]" `1016 
+C L "fillCell" 0 17 1 "FUNCTION"
+V L "gx" 0 83 "sint8" `1018 
+V L "gy" 0 83 "sint8" `1019 
+V L "color" 0 83 "int8" `1020 
+F G "fillCell" 0 83 "void(sint8 gx,sint8 gy,int8 color)" `1017 
+V L "px" 0 85 "int8" `1021 
+V L "py" 0 86 "int8" `1022 
+V L "dx" 0 87 "int8" `1023 
+V L "dy" 0 88 "int8" `1024 
+F G "screenWipeDown" 0 92 "void()" `1025 
+V L "y" 0 93 "int8" `1026 
+V L "x" 0 94 "int8" `1027 
+F G "drawGrid" 0 101 "void()" `1028 
+V L "c" 0 102 "int8" `1029 
+V L "x" 0 103 "int8" `1030 
+V L "r" 0 106 "int8" `1031 
+V L "y" 0 107 "int8" `1032 
+F G "clearScoreArea" 0 112 "void()" `1033 
+V L "x" 0 113 "int8" `1034 
+V L "y" 0 114 "int8" `1035 
+F G "writeScore" 0 120 "void()" `1036 
+F G "criar_comida" 0 126 "void()" `1037 
+V L "valid" 0 127 "int8" `1038 
+V L "j" 0 132 "int8" `1039 
+F G "gameover" 0 142 "void()" `1040 
+F G "winScreen" 0 160 "void()" `1041 
+F G "showSplashScreen" 0 177 "void()" `1042 
+V L "index" 0 183 "int8" `1044 
+F G "displayDifficulty" 0 183 "void(int8 index)" `1043 
+V L "x" 0 184 "int8" `1045 
+V L "y" 0 185 "int8" `1046 
+F G "selectDifficulty" 0 196 "void(int8 ,int8 )" `1047 
+V L "title" 0 197 "int8[1]" `1048 
+C L "selectDifficulty" 0 17 1 "FUNCTION"
+F G "MAIN" 0 234 "void()" `1049 
+C L "MAIN" 0 17 1 "FUNCTION"
+C L "MAIN" 0 17 1 "FUNCTION"
+V L "tailX" 0 276 "int8" `1054 
+V L "tailY" 0 276 "int8" `1055 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 0

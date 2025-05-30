@@ -1,0 +1,16 @@
+#define BUZZER_PIN PIN_B3
+
+void buzzer_on() {
+   output_high(BUZZER_PIN);  // Buzzer öter
+}
+
+void buzzer_off() {
+   output_low(BUZZER_PIN);   // Buzzer susar
+}
+
+void short_beep() {
+   buzzer_on();
+   delay_ms(500); // 100 ms öt
+   buzzer_off();
+}
+

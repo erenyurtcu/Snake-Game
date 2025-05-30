@@ -1,0 +1,27 @@
+#include <16F877A.h>
+#device ADC=10
+#fuses HS,NOWDT,NOPROTECT,NOLVP
+#use delay(clock=16000000)
+#define BUZZER_PIN PIN_B3
+
+void buzzer_on() { output_high(BUZZER_PIN); }
+void buzzer_off() { output_low(BUZZER_PIN); }
+
+void short_beep() {
+   buzzer_on();
+   delay_ms(300);
+   buzzer_off();
+}
+
+void main() {
+   set_tris_b(0b00000000);  // PORTB çýkýþ
+   output_low(BUZZER_PIN);
+
+   delay_ms(1000); // Baþlatma beklemesi
+
+   while(TRUE) {
+      short_beep();
+      delay_ms(2000);
+   }
+}
+

@@ -1,0 +1,61 @@
+#include <16F877A.h>
+#fuses HS,NOWDT,NOPROTECT,NOLVP
+#use delay(clock=16000000)
+#include <stdlib.h>
+#include <glcd.c>
+#include <stdio.h>
+
+#define uchar unsigned char
+
+#define GRID_SIZE     6
+#define GRID_COLS     10
+#define GRID_ROWS     10
+#define GRID_ORIGIN_X 0
+#define GRID_ORIGIN_Y 0
+
+// Buzzer tanýmý
+#define BUZZER_PIN PIN_B3
+
+// Buzzer fonksiyonlarý
+void buzzer_beep(int duration_ms) {
+   output_high(BUZZER_PIN);
+   delay_ms(duration_ms);
+   output_low(BUZZER_PIN);
+}
+
+void win_melody() {
+   for (int i = 0; i < 3; i++) {
+      buzzer_beep(100);
+      delay_ms(100);
+   }
+}
+
+uchar snakeX[32];
+uchar snakeY[32];
+uchar snakeX2[32];
+uchar snakeY2[32];
+
+#define getX(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])
+#define getY(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])
+#define setX(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val)))
+#define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))
+
+uchar dir = 2;
+uchar food[2], LENGTH_SNAKE = 5;
+uchar posX = 0, posY = 2;
+uchar score = 0;
+uchar best_score = 0;
+char score_txt[11] = "Score: 00";
+char best_score_txt[10] = "Best: 00";
+char gameover_msg[14] = "GAMEOVER !!!";
+char win_msg[] = "YOU WON!";
+char splash_text[] = "SNAKE GAME";
+uchar i;
+
+int1 isFirstStart = 1;
+uchar difficulty_index = 0;
+
+// delay_time 2-bit struct
+struct {
+   unsigned de
+
