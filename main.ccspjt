@@ -100,11 +100,19 @@ D5_E=100
 D5_D=0
 D5_L16=[79531]Project Closed.
 D6=30-05-2025
-D6_L=4
+D6_L=12
 D6_L1=[43516]Project Opened.
 D6_L2=[52806]Project Closed.
 D6_L3=[55609]Project Opened.
 D6_L4=[55905]Started Editing.
+D6_L5=[56414]Stopped Editing.
+D6_L6=[56573]Started Editing.
+D6_L7=[57555]Stopped Editing.
+D6_L8=[57744]Started Editing.
+D6_L9=[59691]Project Opened.
+D6_L10=[59794]Started Editing.
+D6_L11=[60559]Stopped Editing.
+D6_L12=[60623]Started Editing.
 
 [Opened Files]
 1=main.c

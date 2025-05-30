@@ -24,7 +24,7 @@ uchar snakeY2[32];
 #define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))
 
 uchar dir = 2;
-uchar food[2], LENGTH_SNAKE = 5;
+uchar food[2], LENGTH_SNAKE = 64;
 uchar posX = 0, posY = 2;
 uchar score = 0;
 uchar best_score = 0;
@@ -268,7 +268,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300);
+      delay_ms(gameSettings.delay_time * 300);  // Zorluk seviyesine göre hýz
    }
 }
 

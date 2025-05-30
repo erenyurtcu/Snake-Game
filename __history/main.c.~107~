@@ -13,10 +13,10 @@
 #define GRID_ORIGIN_X 0
 #define GRID_ORIGIN_Y 0
 
-uchar snakeX[32];
-uchar snakeY[32];
-uchar snakeX2[32];
-uchar snakeY2[32];
+uchar snakeX[50];
+uchar snakeY[50];
+uchar snakeX2[50];
+uchar snakeY2[50];
 
 #define getX(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])
 #define getY(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])
@@ -268,7 +268,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300);
+      delay_ms(gameSettings.delay_time * 300);  // Zorluk seviyesine göre hýz
    }
 }
 

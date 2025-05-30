@@ -37,16 +37,21 @@ uchar i;
 
 int1 isFirstStart = 1;
 uchar difficulty_index = 0;
+int delay_time = 600;
 
-// ? delay_time 2-bitlik RAM dostu yapý
-struct {
-   unsigned delay_time : 2;
-} gameSettings;
-
-// ? RAM'de tutulan yazýlar (const DEÐÝL!)
+// RAM'de tutulan yazýlar
 char easy[]   = "EASY";
 char medium[] = "MEDIUM";
 char hard[]   = "HARD";
+
+// Delay güvenli þekilde uygulanýr
+void wait_delay(int time_ms) {
+   while (time_ms >= 100) {
+      delay_ms(100);
+      time_ms -= 100;
+   }
+   if (time_ms > 0) delay_ms(time_ms);
+}
 
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
@@ -152,6 +157,7 @@ void displayDifficulty(uchar index) {
          glcd_pixel(x, y, 0);
       }
    }
+
    switch(index) {
       case 0: glcd_text57(40, 30, easy, 1, 1); break;
       case 1: glcd_text57(40, 30, medium, 1, 1); break;
@@ -163,6 +169,7 @@ void selectDifficulty() {
    char title[] = "SELECT DIFFICULTY";
    glcd_fillScreen(0);
    glcd_text57(10, 10, title, 1, 1);
+
    displayDifficulty(difficulty_index);
 
    while(TRUE) {
@@ -184,10 +191,10 @@ void selectDifficulty() {
 
       if (input(PIN_C5)) {
          switch (difficulty_index) {
-               case 0: gameSettings.delay_time = 3; break; // EASY
-               case 1: gameSettings.delay_time = 2; break; // MEDIUM
-               case 2: gameSettings.delay_time = 1; break; // HARD
-            }
+            case 0: delay_time = 800; break;   // EASY
+            case 1: delay_time = 400; break;   // MEDIUM
+            case 2: delay_time = 200; break;   // HARD
+         }
          delay_ms(300);
          return;
       }
@@ -268,7 +275,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300);
+      wait_delay(delay_time); // Güvenli bekleme
    }
 }
 

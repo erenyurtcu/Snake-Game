@@ -13,27 +13,48 @@
 #define GRID_ORIGIN_X 0
 #define GRID_ORIGIN_Y 0
 
-uchar snakeX[50];
-uchar snakeY[50];
-uchar snakeX2[50];
-uchar snakeY2[50];
+uchar snakeX[32];
+uchar snakeY[32];
+uchar snakeX2[32];
+uchar snakeY2[32];
 
-#define getX(i) ((i < 50) ? snakeX[i] : snakeX2[(i)-50])
-#define getY(i) ((i < 50) ? snakeY[i] : snakeY2[(i)-50])
-#define setX(i,val) ((i < 50) ? (snakeX[i]=(val)) : (snakeX2[(i)-50]=(val)))
-#define setY(i,val) ((i < 50) ? (snakeY[i]=(val)) : (snakeY2[(i)-50]=(val)))
+#define getX(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])
+#define getY(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])
+#define setX(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val)))
+#define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))
 
 uchar dir = 2;
-uchar food[2], LENGTH_SNAKE = 3;
-uchar posX = 1, posY = 2;
+uchar food[2], LENGTH_SNAKE = 5;
+uchar posX = 0, posY = 2;
 uchar score = 0;
 uchar best_score = 0;
 char score_txt[11] = "Score: 00";
 char best_score_txt[10] = "Best: 00";
-char gayover[14]= "GAMEOVER !!!";
+char gameover_msg[14] = "GAMEOVER !!!";
+char win_msg[] = "YOU WON!";
+char splash_text[] = "SNAKE GAME";
 uchar i;
 
 int1 isFirstStart = 1;
+uchar difficulty_index = 0;
+int delay_time = 600;
+
+// ?? RAM'de tutulan yazýlar
+char easy[]   = "EASY";
+char medium[] = "MEDIUM";
+char hard[]   = "HARD";
+
+// ?? Temizleyici buffer
+char clear[]  = "       ";
+
+void fillCell(signed int gx, signed int gy, int1 color) {
+   if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
+   uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
+   uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
+   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
+      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
+         glcd_pixel(px + dx, py + dy, color);
+}
 
 void screenWipeDown() {
    for (uchar y = 0; y < 64; y++) {
@@ -53,14 +74,6 @@ void drawGrid() {
       uchar y = GRID_ORIGIN_Y + r * GRID_SIZE;
       glcd_line(GRID_ORIGIN_X, y, GRID_ORIGIN_X + GRID_COLS * GRID_SIZE, y, 1);
    }
-}
-
-void fillCell(uchar gx, uchar gy, int1 color) {
-   uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
-   uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1;
-   for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)
-      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)
-         glcd_pixel(px + dx, py + dy, color);
 }
 
 void clearScoreArea() {
@@ -94,20 +107,98 @@ void criar_comida() {
 }
 
 void gameover() {
-   LENGTH_SNAKE = 3;
-   posX = 1;
+   LENGTH_SNAKE = 5;
+   posX = 0;
    posY = 2;
    score = 0;
-   score_txt[7] = score_txt[8] = '0';
+   score_txt[7] = '0';
+   score_txt[8] = '0';
    dir = 2;
 
    glcd_fillScreen(0);
-   glcd_text57(25, 30, gayover, 1, 1);
+   glcd_text57(25, 30, gameover_msg, 1, 1);
    delay_ms(1500);
    screenWipeDown();
    glcd_fillScreen(0);
    drawGrid();
 }
+
+void winScreen() {
+   glcd_fillScreen(0);
+   glcd_text57(35, 35, win_msg, 1, 1);
+   delay_ms(2500);
+   screenWipeDown();
+   glcd_fillScreen(0);
+   drawGrid();
+   LENGTH_SNAKE = 5;
+   posX = 0;
+   posY = 2;
+   score = 0;
+   score_txt[7] = '0';
+   score_txt[8] = '0';
+   dir = 2;
+}
+
+void showSplashScreen() {
+   glcd_fillScreen(0);
+   glcd_text57(20, 25, splash_text, 1, 1);
+   delay_ms(2000);
+}
+
+void displayDifficulty(uchar index) {
+   // Alaný manuel olarak temizle (x=40, y=30, geniþlik=48, yükseklik=8)
+   for (uchar x = 40; x < 88; x++) {
+      for (uchar y = 30; y < 38; y++) {
+         glcd_pixel(x, y, 0);
+      }
+   }
+
+   // Þimdi yeni metni yaz
+   switch(index) {
+      case 0: glcd_text57(40, 30, easy, 1, 1); break;
+      case 1: glcd_text57(40, 30, medium, 1, 1); break;
+      case 2: glcd_text57(40, 30, hard, 1, 1); break;
+   }
+}
+
+
+void selectDifficulty() {
+   char title[] = "SELECT DIFFICULTY";
+
+   glcd_fillScreen(0);
+   glcd_text57(10, 10, title, 1, 1);
+
+   displayDifficulty(difficulty_index); // ilk deðer çizilsin
+
+   while(TRUE) {
+      if (input(PIN_C3)) { // RIGHT
+         if (difficulty_index < 2) {
+            difficulty_index++;
+            displayDifficulty(difficulty_index);
+         }
+         delay_ms(300);
+      }
+
+      if (input(PIN_C4)) { // LEFT
+         if (difficulty_index > 0) {
+            difficulty_index--;
+            displayDifficulty(difficulty_index);
+         }
+         delay_ms(300);
+      }
+
+      if (input(PIN_C5)) { // RESET / ONAY
+         switch (difficulty_index) {
+            case 0: delay_time = 50; break; // EASY › yavaþ
+            case 1: delay_time = 150; break; // MEDIUM
+            case 2: delay_time = 250; break; // HARD › hýzlý
+         }
+         delay_ms(300);
+         return;
+      }
+   }
+}
+
 
 void main() {
    glcd_init(ON);
@@ -116,7 +207,9 @@ void main() {
 
 Start:
    if (isFirstStart) {
+      showSplashScreen();
       screenWipeDown();
+      selectDifficulty();
       isFirstStart = 0;
    }
 
@@ -126,7 +219,7 @@ Start:
    criar_comida();
 
    for (i = 0; i < LENGTH_SNAKE; i++) {
-      setX(i, posX - (LENGTH_SNAKE - 1 - i));
+      setX(i, posX - i);
       setY(i, posY);
       fillCell(getX(i), getY(i), 1);
    }
@@ -164,8 +257,8 @@ Start:
 
       if (posX == food[0] && posY == food[1]) {
          LENGTH_SNAKE++;
-         if (LENGTH_SNAKE >= 100) { // maksimum segment
-            gameover(); goto Start;
+         if (LENGTH_SNAKE >= 64) {
+            winScreen(); goto Start;
          }
          criar_comida();
          score++;
@@ -181,7 +274,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(600);
+      delay_ms(delay_time);
    }
 }
 

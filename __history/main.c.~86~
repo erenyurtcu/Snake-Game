@@ -13,6 +13,7 @@
 #define GRID_ORIGIN_X 0
 #define GRID_ORIGIN_Y 0
 
+// Hafýzayý optimize etmek için yýlan uzunluðu azaltýldý
 uchar snakeX[32];
 uchar snakeY[32];
 uchar snakeX2[32];
@@ -36,17 +37,18 @@ char splash_text[] = "SNAKE GAME";
 uchar i;
 
 int1 isFirstStart = 1;
+int delay_time = 600;
+
+// ?? Zorluk seviyeleri artýk ROM'da (const)
+const char difficulty_easy[]   = "EASY";
+const char difficulty_medium[] = "MEDIUM";
+const char difficulty_hard[]   = "HARD";
+const char *difficulty_names[] = {
+   difficulty_easy,
+   difficulty_medium,
+   difficulty_hard
+};
 uchar difficulty_index = 0;
-
-// ? delay_time 2-bitlik RAM dostu yapý
-struct {
-   unsigned delay_time : 2;
-} gameSettings;
-
-// ? RAM'de tutulan yazýlar (const DEÐÝL!)
-char easy[]   = "EASY";
-char medium[] = "MEDIUM";
-char hard[]   = "HARD";
 
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
@@ -146,48 +148,31 @@ void showSplashScreen() {
    delay_ms(2000);
 }
 
-void displayDifficulty(uchar index) {
-   for (uchar x = 40; x < 88; x++) {
-      for (uchar y = 30; y < 38; y++) {
-         glcd_pixel(x, y, 0);
-      }
-   }
-   switch(index) {
-      case 0: glcd_text57(40, 30, easy, 1, 1); break;
-      case 1: glcd_text57(40, 30, medium, 1, 1); break;
-      case 2: glcd_text57(40, 30, hard, 1, 1); break;
-   }
-}
-
 void selectDifficulty() {
    char title[] = "SELECT DIFFICULTY";
+   char clear[] = "            ";
+
    glcd_fillScreen(0);
    glcd_text57(10, 10, title, 1, 1);
-   displayDifficulty(difficulty_index);
 
    while(TRUE) {
+      glcd_text57(40, 30, clear, 1, 1);
+      glcd_text57(40, 30, difficulty_names[difficulty_index], 1, 1);
+
       if (input(PIN_C3)) {
-         if (difficulty_index < 2) {
-            difficulty_index++;
-            displayDifficulty(difficulty_index);
-         }
+         if (difficulty_index < 2) difficulty_index++;
          delay_ms(300);
       }
-
       if (input(PIN_C4)) {
-         if (difficulty_index > 0) {
-            difficulty_index--;
-            displayDifficulty(difficulty_index);
-         }
+         if (difficulty_index > 0) difficulty_index--;
          delay_ms(300);
       }
-
       if (input(PIN_C5)) {
          switch (difficulty_index) {
-               case 0: gameSettings.delay_time = 3; break; // EASY
-               case 1: gameSettings.delay_time = 2; break; // MEDIUM
-               case 2: gameSettings.delay_time = 1; break; // HARD
-            }
+            case 0: delay_time = 600; break;
+            case 1: delay_time = 400; break;
+            case 2: delay_time = 200; break;
+         }
          delay_ms(300);
          return;
       }
@@ -268,7 +253,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300);
+      delay_ms(delay_time);
    }
 }
 

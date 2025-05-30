@@ -1,76 +1,79 @@
 
-ROM used:   3105/8192 (38%)
-            3122/8192 (38%) including unused fragments
+ROM used:   3375/8192 (41%)
+            3377/8192 (41%) including unused fragments
 
-            0.9 Average locations per line
-            4.2 Average locations per statement
+            1.0 Average locations per line
+            4.3 Average locations per statement
 
-RAM used:   281/368 (76%) at main() level
-            305/368 (83%) worst case
+RAM used:   228/368 (62%) at main() level
+            274/368 (74%) worst case
 
 Stack used: 5 worst case (5 in main + 0 for interrupts)
 Stack size: 8
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  215   157  21  main.c
+  275   200  26  main.c
   672     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h
- 1351   359  49  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h
+ 1351   359  46  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h
    32     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h
   423     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\string.h
    28     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\ctype.h
-  643   224  30  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c
+  643   224  29  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c
    37     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h
 ----- -----
- 3401   740 Total
+ 3461   783 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
 0     21   1    1             @delay_ms1
 0     41   1    2             @MUL88
  Inline        13             @MUL3232
-0    142   5    4    101  3.8  rand
-0     41   1    5             @DIV1616
+1    128   4    4    101  3.8  rand
+0     39   1    5             @DIV1616
+1     25   1    5             @MUL1616
 0    262   8    0             @const901
 0    224   7    0             @const905
-0    124   4    1    555  3.4  glcd_init
+0    122   4    1    555  3.4  glcd_init
 0    189   6    6    734  7.1  glcd_pixel
-0    250   8   15   1634  8.6  glcd_line
-0    239   8   21   1436  9.2  glcd_text57
-0    111   4    4    498  4.8  glcd_fillScreen
-0     50   2    2    247  3.2  glcd_writeByte
+0    272   8   15   1634  8.6  glcd_line
+0    249   7   21   1436  9.2  glcd_text57
+0    121   4    4    498  4.8  glcd_fillScreen
+0     50   1    2    247  3.2  glcd_writeByte
  Inline         2    410  3.1  glcd_readByte
-0     76   2    5    587  8.5  fillCell
-0     37   1    0    212  4.0  screenWipeDown
-0     69   2    0    469  5.5  drawGrid
+1     84   2    5    587  8.5  fillCell
+0     35   1    0    212  4.0  screenWipeDown
+0     63   2    0    469  5.5  drawGrid
  Inline         0    188  4.0  clearScoreArea
-0     55   2    0    123  1.7  writeScore
-1    142   5    3    679  9.5  criar_comida
-0     56   2    1    336  2.8  gameover
-1     69   2    1    336  2.8  winScreen
-0     40   1    1     88  1.7  showSplashScreen
-1    830  27    4   6085 13.9  MAIN
-1      8   0    0             @goto12279
-1     25   1    3             @DIV88
- Inline         0             @cinit1
+0     54   2    0    123  1.7  writeScore
+1    116   3    3    679  9.5  criar_comida
+1     61   2    1    336  2.8  gameover
+1     62   2    1    336  2.8  winScreen
+0     32   1    1     88  1.7  showSplashScreen
+0     85   3    1    561  6.3  displayDifficulty
+0    160   5   19    778  8.5  selectDifficulty
+1    845  25    4   6160 14.9  MAIN
+1      8   0    0    561  6.3  @goto12340
+0     23   1    3    574  7.0  @DIV88
+ Inline         0   6160 14.9  @cinit1
 
 Program metrics:
-    Functions               18
-    Statements              740
-    Comments                955
-    Volume (V)              22300
-    Difficulty (D)          96.9
-    Effort to implement (E) 2160989
-    Time to implement (T)   33 hours, 21 minutes
-    Est Delivered Bugs (B)  6
-    Cyclomatic Complexity   55
-    Maintainability (MI)    25
+    Functions               23
+    Statements              783
+    Comments                961
+    Volume (V)              36087
+    Difficulty (D)          141.2
+    Effort to implement (E) 5096769
+    Time to implement (T)   78 hours, 39 minutes
+    Est Delivered Bugs (B)  10
+    Cyclomatic Complexity   99
+    Maintainability (MI)    47
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00003     4  0  
-00004-007FF  2027  17  
-00800-00FFF  1074  974  
+00004-007FF  2042  2  
+00800-00FFF  1329  719  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 

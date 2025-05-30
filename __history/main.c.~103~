@@ -183,11 +183,7 @@ void selectDifficulty() {
       }
 
       if (input(PIN_C5)) {
-         switch (difficulty_index) {
-               case 0: gameSettings.delay_time = 3; break; // EASY
-               case 1: gameSettings.delay_time = 2; break; // MEDIUM
-               case 2: gameSettings.delay_time = 1; break; // HARD
-            }
+         gameSettings.delay_time = difficulty_index + 1; // 1=Hard, 2=Medium, 3=Easy
          delay_ms(300);
          return;
       }
@@ -268,7 +264,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300);
+      delay_ms(gameSettings.delay_time * 250);  // Zorluk seviyesine göre hýz
    }
 }
 

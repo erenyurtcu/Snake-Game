@@ -268,7 +268,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 300);
+      delay_ms(gameSettings.delay_time * 300);  // Zorluk seviyesine göre hýz
    }
 }
 
