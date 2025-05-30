@@ -12,26 +12,8 @@
 #define GRID_ROWS     10
 #define GRID_ORIGIN_X 0
 #define GRID_ORIGIN_Y 0
-
-// ? BUZZER pin ve frekanslý beep fonksiyonu
 #define BUZZER_PIN PIN_B3
 
-void buzzer_beep(int duration_ms) {
-   int cycles = duration_ms * 1000 / 2000; // 2ms per cycle at 500Hz
-   for (int i = 0; i < cycles; i++) {
-      output_high(BUZZER_PIN);
-      delay_us(1000);  // 1ms HIGH
-      output_low(BUZZER_PIN);
-      delay_us(1000);  // 1ms LOW
-   }
-}
-
-void win_melody() {
-   for (int i = 0; i < 3; i++) {
-      buzzer_beep(100);
-      delay_ms(100);
-   }
-}
 
 uchar snakeX[32];
 uchar snakeY[32];
@@ -66,6 +48,7 @@ char easy[]   = "EASY";
 char medium[] = "MEDIUM";
 char hard[]   = "HARD";
 
+// lcd part
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
    uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
@@ -126,7 +109,7 @@ void criar_comida() {
 }
 
 void gameover() {
-   buzzer_beep(200);
+   error_beep();
    LENGTH_SNAKE = 5;
    posX = 0;
    posY = 2;
@@ -190,6 +173,7 @@ void selectDifficulty() {
          if (difficulty_index < 2) {
             difficulty_index++;
             displayDifficulty(difficulty_index);
+            short_beep();
          }
          delay_ms(300);
       }
@@ -198,25 +182,71 @@ void selectDifficulty() {
          if (difficulty_index > 0) {
             difficulty_index--;
             displayDifficulty(difficulty_index);
+            short_beep();
          }
          delay_ms(300);
       }
 
       if (input(PIN_C5)) {
-         gameSettings.delay_time = 3 - difficulty_index;
+         switch (difficulty_index) {
+            case 0: gameSettings.delay_time = 3; break;
+            case 1: gameSettings.delay_time = 2; break;
+            case 2: gameSettings.delay_time = 1; break;
+         }
+         buzzer_beep(100);  // Seçim onay sesi
          delay_ms(300);
          return;
       }
    }
 }
 
+
+// buzzer part
+void buzzer_beep(int duration_ms) {
+   int cycles = duration_ms * 1000L / 2000;  // 500Hz dalga
+   for (int i = 0; i < cycles; i++) {
+      output_low(BUZZER_PIN);    // aktif LOW › ses
+      delay_us(1000);
+      output_high(BUZZER_PIN);   // sessiz
+      delay_us(1000);
+   }
+   output_high(BUZZER_PIN);  // sessiz býrak
+}
+
+void short_beep() {
+   buzzer_beep(100);
+}
+
+void error_beep() {
+      buzzer_beep(1000);
+      delay_ms(200); 
+      buzzer_beep(1000);
+      delay_ms(200); 
+      buzzer_beep(700);
+      delay_ms(200);      
+}
+
+void win_melody() {
+   int notes[] = {200, 100, 100, 400, 200, 150, 600, 300};
+   int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; // Aralýklar
+
+   for (int i = 0; i < 8; i++) {
+      buzzer_beep(notes[i]);
+      delay_ms(gaps[i]);
+   }
+}
+
 void main() {
+   set_tris_b(0b00000111);
+   output_high(BUZZER_PIN);
+
    glcd_init(ON);
    glcd_fillScreen(0);
    delay_ms(500);
 
 Start:
    if (isFirstStart) {
+      buzzer_beep(100);
       showSplashScreen();
       screenWipeDown();
       selectDifficulty();
@@ -235,10 +265,10 @@ Start:
    }
 
    while (TRUE) {
-      if (input(PIN_C3) && dir != 0) dir = 3;
-      if (input(PIN_C2) && dir != 1) dir = 2;
-      if (input(PIN_C1) && dir != 2) dir = 1;
-      if (input(PIN_C4) && dir != 3) dir = 0;
+      if (input(PIN_C3) && dir != 0) { dir = 3; short_beep(); }
+      if (input(PIN_C2) && dir != 1) { dir = 2; short_beep(); }
+      if (input(PIN_C1) && dir != 2) { dir = 1; short_beep(); }
+      if (input(PIN_C4) && dir != 3) { dir = 0; short_beep(); }
       if (input(PIN_C5)) { gameover(); goto Start; }
 
       switch(dir) {
@@ -266,7 +296,7 @@ Start:
       fillCell(tailX, tailY, 0);
 
       if (posX == food[0] && posY == food[1]) {
-         buzzer_beep(50); // ? Sesli tepki
+         buzzer_beep(50);
          LENGTH_SNAKE++;
          if (LENGTH_SNAKE >= 64) {
             winScreen(); goto Start;
@@ -285,7 +315,7 @@ Start:
          writeScore();
       }
 
-      delay_ms(gameSettings.delay_time * 250);
+      delay_ms(gameSettings.delay_time * 300);
    }
 }
 

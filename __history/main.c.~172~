@@ -4,9 +4,7 @@
 #include <stdlib.h>
 #include <glcd.c>
 #include <stdio.h>
-
 #define uchar unsigned char
-
 #define GRID_SIZE     6
 #define GRID_COLS     10
 #define GRID_ROWS     10
@@ -14,43 +12,7 @@
 #define GRID_ORIGIN_Y 0
 #define BUZZER_PIN PIN_B3
 
-// buzzer part
-void buzzer_beep(int duration_ms) {
-   int cycles = duration_ms * 1000L / 2000;  // 500Hz dalga
-   for (int i = 0; i < cycles; i++) {
-      output_low(BUZZER_PIN);    // aktif LOW › ses
-      delay_us(1000);
-      output_high(BUZZER_PIN);   // sessiz
-      delay_us(1000);
-   }
-   output_high(BUZZER_PIN);  // sessiz býrak
-}
-
-void short_beep() {
-   buzzer_beep(100);
-}
-
-void error_beep() {
-      buzzer_beep(1000);
-      delay_ms(200); 
-      buzzer_beep(1000);
-      delay_ms(200); 
-      buzzer_beep(700);
-      delay_ms(200);      
-}
-
-void win_melody() {
-   int notes[] = {200, 100, 100, 400, 200, 150, 600, 300};
-   int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; // Aralýklar
-
-   for (int i = 0; i < 8; i++) {
-      buzzer_beep(notes[i]);
-      delay_ms(gaps[i]);
-   }
-}
-
-
-uchar snakeX[32];
+uchar snakeX[32]; // it holds 64 segment of snake, because there is no empty space in ram
 uchar snakeY[32];
 uchar snakeX2[32];
 uchar snakeY2[32];
@@ -83,7 +45,7 @@ char easy[]   = "EASY";
 char medium[] = "MEDIUM";
 char hard[]   = "HARD";
 
-// -------------------- GLCD --------------------
+// lcd part
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
    uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1;
@@ -235,9 +197,45 @@ void selectDifficulty() {
    }
 }
 
+
+// buzzer part
+void buzzer_beep(int duration_ms) {
+   int cycles = duration_ms * 1000L / 2000;  // 500Hz dalga
+   for (int i = 0; i < cycles; i++) {
+      output_low(BUZZER_PIN);    // aktif LOW › ses
+      delay_us(1000);
+      output_high(BUZZER_PIN);   // sessiz
+      delay_us(1000);
+   }
+   output_high(BUZZER_PIN);  // sessiz býrak
+}
+
+void short_beep() {
+   buzzer_beep(100);
+}
+
+void error_beep() {
+      buzzer_beep(1000);
+      delay_ms(200); 
+      buzzer_beep(1000);
+      delay_ms(200); 
+      buzzer_beep(700);
+      delay_ms(200);      
+}
+
+void win_melody() {
+   int notes[] = {200, 100, 100, 400, 200, 150, 600, 300};
+   int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; // Aralýklar
+
+   for (int i = 0; i < 8; i++) {
+      buzzer_beep(notes[i]);
+      delay_ms(gaps[i]);
+   }
+}
+
 void main() {
-   set_tris_b(0b00000111); // RB0-1-2 giriþ, RB3 çýkýþ
-   output_high(BUZZER_PIN); // Baþta sessiz (aktif-LOW)
+   set_tris_b(0b00000111);
+   output_high(BUZZER_PIN);
 
    glcd_init(ON);
    glcd_fillScreen(0);

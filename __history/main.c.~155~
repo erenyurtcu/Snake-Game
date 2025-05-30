@@ -12,9 +12,9 @@
 #define GRID_ROWS     10
 #define GRID_ORIGIN_X 0
 #define GRID_ORIGIN_Y 0
-#define BUZZER_PIN PIN_B3
+#define BUZZER_PIN PIN_B3  // BUZZER pin tanýmý
 
-// buzzer part
+// -------------------- BUZZER --------------------
 void buzzer_beep(int duration_ms) {
    int cycles = duration_ms * 1000L / 2000;  // 500Hz dalga
    for (int i = 0; i < cycles; i++) {
@@ -31,25 +31,21 @@ void short_beep() {
 }
 
 void error_beep() {
-      buzzer_beep(1000);
-      delay_ms(200); 
-      buzzer_beep(1000);
-      delay_ms(200); 
-      buzzer_beep(700);
-      delay_ms(200);      
+   for (int i = 0; i < 2; i++) {
+      buzzer_beep(50);
+      delay_ms(50);
+   }
+   buzzer_beep(100);  // uzun hata sesi
 }
 
 void win_melody() {
-   int notes[] = {200, 100, 100, 400, 200, 150, 600, 300};
-   int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0}; // Aralýklar
-
-   for (int i = 0; i < 8; i++) {
-      buzzer_beep(notes[i]);
-      delay_ms(gaps[i]);
+   for (int i = 0; i < 3; i++) {
+      buzzer_beep(100);
+      delay_ms(100);
    }
 }
 
-
+// -------------------- GLOBAL --------------------
 uchar snakeX[32];
 uchar snakeY[32];
 uchar snakeX2[32];

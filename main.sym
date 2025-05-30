@@ -44,49 +44,49 @@
 143-147 hard
 148     MAIN.tailX
 149     MAIN.tailY
+14A     @DIV88.P1
+14A     glcd_init.mode
+14A-151 win_melody.notes
+14A     drawGrid.c
+14A     criar_comida.valid
 14A     clearScoreArea.x
 14A     screenWipeDown.y
-14A     criar_comida.valid
 14A-15B selectDifficulty.title
-14A     glcd_init.mode
-14A     win_melody.i
-14A     @DIV88.P1
-14A     drawGrid.c
-14A     error_beep.i
 14A     gameover.@SCRATCH1
 14A     winScreen.@SCRATCH1
 14A     showSplashScreen.@SCRATCH1
 14A     MAIN.@SCRATCH1
-14B     @DIV88.P1
-14B     drawGrid.x
+14B     screenWipeDown.x
 14B     clearScoreArea.y
 14B     criar_comida.j
-14B     screenWipeDown.x
+14B     drawGrid.x
+14B     @DIV88.P1
 14B     MAIN.@SCRATCH2
-14C     fillCell.gx
 14C     drawGrid.r
 14C-14F @MUL3232.P1
+14C     fillCell.gx
 14C     rand.@SCRATCH1
 14C     criar_comida.@SCRATCH1
 14C     MAIN.@SCRATCH3
 14C     @DIV88.@SCRATCH1
-14D     drawGrid.y
 14D     fillCell.gy
+14D     drawGrid.y
 14D     rand.@SCRATCH2
 14D     criar_comida.@SCRATCH2
 14D     MAIN.@SCRATCH4
 14E     fillCell.color
 14E     glcd_line.x1
 14E     rand.@SCRATCH3
-14F     glcd_line.y1
 14F     fillCell.px
+14F     glcd_line.y1
 14F     rand.@SCRATCH4
 150-153 @MUL3232.P1
-150     fillCell.py
 150     glcd_line.x2
+150     fillCell.py
 151     glcd_line.y2
 151     fillCell.dx
 152     fillCell.dy
+152-159 win_melody.gaps
 152     glcd_line.color
 153     glcd_line.x
 153     fillCell.@SCRATCH1
@@ -102,15 +102,17 @@
 158     glcd_line.dy
 158     @MUL3232.@SCRATCH5
 159-15A glcd_line.p
+15A     win_melody.i
 15B     glcd_line.i
-15C     displayDifficulty.index
+15B     win_melody.@SCRATCH1
 15C     buzzer_beep.duration_ms
 15C     glcd_fillScreen.color
+15C     displayDifficulty.index
 15C     glcd_line.@SCRATCH1
 15C     selectDifficulty.@SCRATCH1
+15D     displayDifficulty.x
 15D     glcd_fillScreen.i
 15D     buzzer_beep.cycles
-15D     displayDifficulty.x
 15E     buzzer_beep.i
 15E     displayDifficulty.y
 15E     glcd_fillScreen.j
@@ -185,21 +187,21 @@ ROM Allocation:
 000957  criar_comida
 0009CB  gameover
 0009CB  error_beep
-000A22  win_melody
-000A22  winScreen
-000A73  MAIN
-000A73  @cinit1
-000A8A  @cinit2
-000DCD  @goto12388
+000A30  win_melody
+000A30  winScreen
+000AA7  MAIN
+000AA7  @cinit1
+000ABE  @cinit2
+000E01  @goto12380
 0136  StrtoulGO
 0136  StrtolGO
-0B32  Start
+0B66  Start
 
 Project Directory:
     C:\Users\Eren\Documents\CCS C Projects\snake_project\
 
 Project Files:
-    main.c                                                  [30-May-25 21:32  CRC=B2C91A0C]
+    main.c                                                  [30-May-25 22:41  CRC=37FA34C6]
     ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h [18-Nis-14 16:56  CRC=4F277C97]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h [08-Haz-11 14:39  CRC=0B6669CF]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h [16-Tem-10 09:27  CRC=897CEC6C]
@@ -208,7 +210,7 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c  [18-Kas-05 07:48  CRC=C6ACD324]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h [31-Tem-07 13:24  CRC=4E4534F4]
 
-Source signature=8D55529D
+Source signature=12866D57
 
 Units:
     main (main)
