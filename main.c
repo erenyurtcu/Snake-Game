@@ -30,7 +30,7 @@ uchar score = 0;
 uchar best_score = 0;
 char score_txt[11] = "Score: 00";
 char best_score_txt[10] = "Best: 00";
-char gayover[14] = "GAMEOVER !!!";
+char gameover_msg[14] = "GAMEOVER !!!";
 char win_msg[] = "YOU WON!";
 char splash_text[] = "SNAKE GAME";
 uchar i;
@@ -106,7 +106,7 @@ void gameover() {
    dir = 2;
 
    glcd_fillScreen(0);
-   glcd_text57(25, 30, gayover, 1, 1);
+   glcd_text57(25, 30, gameover_msg, 1, 1);
    delay_ms(1500);
    screenWipeDown();
    glcd_fillScreen(0);

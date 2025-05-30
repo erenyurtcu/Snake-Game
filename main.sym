@@ -30,7 +30,7 @@
 09C.6   C1OUT
 09C.7   C2OUT
 0A0-0D1 snakeY
-0D2-0DF gayover
+0D2-0DF gameover_msg
 0E0-0E8 win_msg
 10D-10E @READ_PROGRAM_MEMORY8.P1
 10D-10E @WRITE_PROGRAM_MEMORY8.P2
@@ -172,7 +172,7 @@ Project Directory:
     C:\Users\Eren\Documents\CCS C Projects\snake_project\
 
 Project Files:
-    main.c                                                  [29-May-25 21:53  CRC=9D961105]
+    main.c                                                  [30-May-25 15:34  CRC=9BCD5871]
     ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F877A.h [18-Nis-14 16:56  CRC=4F277C97]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdlib.h [08-Haz-11 14:39  CRC=0B6669CF]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stddef.h [16-Tem-10 09:27  CRC=897CEC6C]
@@ -181,7 +181,7 @@ Project Files:
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\glcd.c  [18-Kas-05 07:48  CRC=C6ACD324]
     ..\..\..\..\..\Program Files (x86)\PICC\Drivers\stdio.h [31-Tem-07 13:24  CRC=4E4534F4]
 
-Source signature=78224996
+Source signature=76599102
 
 Units:
     main (main)

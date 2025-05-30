@@ -1,4 +1,4 @@
-CCS PCM C Compiler, Version 5.025, 5967               29-May-25 21:53
+CCS PCM C Compiler, Version 5.025, 5967               30-May-25 15:34
 
                Filename:   C:\Users\Eren\Documents\CCS C Projects\snake_project\main.lst
 
@@ -4843,7 +4843,7 @@ CCS PCM C Compiler, Version 5.025, 5967               29-May-25 21:53
 0925:  MOVWF  72
 0926:  MOVWF  73
 0927:  CLRF   74
-.................... char gayover[14] = "GAMEOVER !!!"; 
+.................... char gameover_msg[14] = "GAMEOVER !!!"; 
 0928:  MOVLW  47
 0929:  BSF    03.5
 092A:  MOVWF  52
@@ -5384,7 +5384,7 @@ CCS PCM C Compiler, Version 5.025, 5967               29-May-25 21:53
 07C5:  BCF    03.5
 07C6:  BCF    03.6
 07C7:  CALL   245
-....................    glcd_text57(25, 30, gayover, 1, 1); 
+....................    glcd_text57(25, 30, gameover_msg, 1, 1); 
 07C8:  MOVLW  19
 07C9:  BSF    03.5
 07CA:  BSF    03.6

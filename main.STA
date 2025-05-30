@@ -50,21 +50,21 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     69   2    1    336  2.8  winScreen
 0     40   1    1     88  1.7  showSplashScreen
 1    830  27    4   6085 13.9  MAIN
-1      8   0    0   6085 13.9  @goto12279
-1     25   1    3   6057 13.9  @DIV88
+1      8   0    0             @goto12279
+1     25   1    3             @DIV88
  Inline         0             @cinit1
 
 Program metrics:
-    Functions               20
+    Functions               18
     Statements              740
     Comments                955
-    Volume (V)              39469
-    Difficulty (D)          125.0
-    Effort to implement (E) 4935348
-    Time to implement (T)   76 hours, 10 minutes
-    Est Delivered Bugs (B)  10
-    Cyclomatic Complexity   97
-    Maintainability (MI)    24
+    Volume (V)              22300
+    Difficulty (D)          96.9
+    Effort to implement (E) 2160989
+    Time to implement (T)   33 hours, 21 minutes
+    Est Delivered Bugs (B)  6
+    Cyclomatic Complexity   55
+    Maintainability (MI)    25
 
  Segment     Used  Free
 -----------  ----  ----
