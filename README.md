@@ -83,7 +83,7 @@ To develop an educational, real-time, and interactive game experience using:
 
 ## 🔩 Hardware Circuit Diagram
 
-![Circuit Diagram](hardware/circuit_diagram.png)
+![Circuit Diagram](circuit_diagram.png)
   
 ---
 
