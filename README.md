@@ -83,8 +83,7 @@ To develop an educational, real-time, and interactive game experience using:
 
 ## 🔩 Hardware Circuit Diagram
 
-📷 *Circuit Diagram goes here*  
-*(Add image or SVG as: `![Diagram](circuit_diagram.png)`)*
+![Circuit Diagram](hardware/circuit_diagram.png)
   
 ---
 
