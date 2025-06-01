@@ -60,7 +60,7 @@ uchar snakeY2[32];
 #define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))
 
 uchar dir = 2;
-uchar food[2], LENGTH_SNAKE = 5;
+uchar food[2], LENGTH_SNAKE = 62;
 uchar posX = 0, posY = 2;
 uchar score = 0;
 uchar best_score = 0;
@@ -139,7 +139,7 @@ void criar_comida() {
 
 void gameover() {
    error_beep();
-   LENGTH_SNAKE = 5;
+   LENGTH_SNAKE = 62;
    posX = 0;
    posY = 2;
    score = 0;
@@ -163,7 +163,7 @@ void winScreen() {
    screenWipeDown();
    glcd_fillScreen(0);
    drawGrid();
-   LENGTH_SNAKE = 5;
+   LENGTH_SNAKE = 62;
    posX = 0;
    posY = 2;
    score = 0;

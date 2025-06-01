@@ -1,8 +1,8 @@
-D G "setY" 0 60 "(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))"
-D G "__PCM__" 0 321 ""5.025""
-D G "__DEVICE__" 0 321 "877"
-D G "__DATE__" 0 321 ""30-May-25""
-D G "__TIME__" 0 321 ""22:52:18"" "Standard Header file for the PIC16F877A device ////////////////"
+C L "MAIN" 0 17 1 "FUNCTION"
+D G "__PCM__" 0 340 ""5.025""
+D G "__DEVICE__" 0 340 "877"
+D G "__DATE__" 0 340 ""01-Haz-25""
+D G "__TIME__" 0 340 ""18:27:33"" "Standard Header file for the PIC16F877A device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 v L "value" 1 37 "int8" `54 
 f B "set_tris_a" 1 37 "void(int8 value)" `53 
@@ -1380,51 +1380,58 @@ V G "score_txt" 0 67 "int8[11]" `1004
 V G "best_score_txt" 0 68 "int8[10]" `1005 
 V G "gameover_msg" 0 69 "int8[14]" `1006 
 V G "win_msg" 0 70 "int8[1]" `1007 
-V G "splash_text" 0 71 "int8[1]" `1008 
-V G "i" 0 72 "int8" `1009 
-V G "isFirstStart" 0 74 "int1" `1010 
-V G "difficulty_index" 0 75 "int8" `1011 
-V G "gameSettings" 0 79 "{int2 delay_time}" `1014 
-V G "easy" 0 81 "int8[1]" `1015 
-V G "medium" 0 82 "int8[1]" `1016 
-V G "hard" 0 83 "int8[1]" `1017 
-C L "fillCell" 0 17 1 "FUNCTION"
-V L "gx" 0 86 "sint8" `1019 
-V L "gy" 0 86 "sint8" `1020 
-V L "color" 0 86 "int8" `1021 
-F G "fillCell" 0 86 "void(sint8 gx,sint8 gy,int8 color)" `1018 
-V L "px" 0 88 "int8" `1022 
-V L "py" 0 89 "int8" `1023 
-V L "dx" 0 90 "int8" `1024 
-V L "dy" 0 91 "int8" `1025 
-F G "screenWipeDown" 0 95 "void()" `1026 
-V L "y" 0 96 "int8" `1027 
-V L "x" 0 97 "int8" `1028 
-F G "drawGrid" 0 104 "void()" `1029 
-V L "c" 0 105 "int8" `1030 
-V L "x" 0 106 "int8" `1031 
-V L "r" 0 109 "int8" `1032 
-V L "y" 0 110 "int8" `1033 
-F G "clearScoreArea" 0 115 "void()" `1034 
-V L "x" 0 116 "int8" `1035 
-V L "y" 0 117 "int8" `1036 
-F G "writeScore" 0 123 "void()" `1037 
-F G "criar_comida" 0 129 "void()" `1038 
-V L "valid" 0 130 "int8" `1039 
-V L "j" 0 135 "int8" `1040 
-F G "gameover" 0 145 "void()" `1041 
-F G "winScreen" 0 163 "void()" `1042 
-F G "showSplashScreen" 0 180 "void()" `1043 
-V L "index" 0 186 "int8" `1045 
-F G "displayDifficulty" 0 186 "void(int8 index)" `1044 
-V L "x" 0 187 "int8" `1046 
-V L "y" 0 188 "int8" `1047 
-F G "selectDifficulty" 0 199 "void()" `1048 
-V L "title" 0 200 "int8[1]" `1049 
+V G "i" 0 71 "int8" `1008 
+V G "isFirstStart" 0 73 "int1" `1009 
+V G "difficulty_index" 0 74 "int8" `1010 
+V G "gameSettings" 0 78 "{int2 delay_time}" `1013  "glcd part"
+V L "gx" 0 81 "sint8" `1015 
+V L "gy" 0 81 "sint8" `1016 
+V L "color" 0 81 "int8" `1017 
+F G "fillCell" 0 81 "void(sint8 gx,sint8 gy,int8 color)" `1014 
+V L "px" 0 83 "int8" `1018 
+V L "py" 0 84 "int8" `1019 
+V L "dx" 0 85 "int8" `1020 
+V L "dy" 0 86 "int8" `1021 
+F G "screenWipeDown" 0 90 "void()" `1022 
+V L "y" 0 91 "int8" `1023 
+V L "x" 0 92 "int8" `1024 
+F G "drawGrid" 0 99 "void()" `1025 
+V L "c" 0 100 "int8" `1026 
+V L "x" 0 101 "int8" `1027 
+V L "r" 0 104 "int8" `1028 
+V L "y" 0 105 "int8" `1029 
+F G "clearScoreArea" 0 110 "void()" `1030 
+V L "x" 0 111 "int8" `1031 
+V L "y" 0 112 "int8" `1032 
+F G "writeScore" 0 118 "void()" `1033 
+F G "criar_comida" 0 124 "void()" `1034 
+V L "valid" 0 125 "int8" `1035 
+V L "j" 0 130 "int8" `1036 
+F G "gameover" 0 140 "void()" `1037 
+F G "winScreen" 0 158 "void()" `1038 
+F G "showSplashScreen" 0 175 "void()" `1039 
+V L "serpenti_txt" 0 176 "int8[1]" `1040 
+V L "snakegame_txt" 0 177 "int8[1]" `1041 
+V L "index" 0 186 "int8" `1043 
+F G "displayDifficulty" 0 186 "void(int8 index)" `1042 
+V L "difficultyText" 0 187 "int8[16]" `1044 
+V L "x" 0 188 "int8" `1045 
+V L "y" 0 189 "int8" `1046 
+V L "text_length" 0 199 "int8" `1050 
+V L "pos_x" 0 200 "int8" `1051 
+F G "selectDifficulty" 0 207 "void()" `1052 
+V L "title" 0 208 "int8[1]" `1053 
+V L "prev_left" 0 213 "int1" `1054 
+V L "prev_right" 0 213 "int1" `1055 
+V L "prev_select" 0 213 "int1" `1056 
+V L "curr_left" 0 216 "int1" `1057 
+V L "curr_right" 0 217 "int1" `1058 
+V L "curr_select" 0 218 "int1" `1059 
 C L "selectDifficulty" 0 17 1 "FUNCTION"
-F G "MAIN" 0 237 "void()" `1050 
-V L "tailX" 0 279 "int8" `1055 
-V L "tailY" 0 279 "int8" `1056 
+C L "selectDifficulty" 0 17 1 "FUNCTION"
+F G "MAIN" 0 256 "void()" `1060 
+V L "tailX" 0 298 "int8" `1065 
+V L "tailY" 0 298 "int8" `1066 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 0

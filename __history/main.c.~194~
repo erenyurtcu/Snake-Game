@@ -77,6 +77,10 @@ struct {
    unsigned delay_time : 2;
 } gameSettings;
 
+char easy[]   = "EASY";
+char medium[] = "MEDIUM";
+char hard[]   = "HARD";
+
 // glcd part
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;

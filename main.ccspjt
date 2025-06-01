@@ -14,7 +14,7 @@ Type=4
 1=main.c
 
 [ProjectLog]
-Days=6
+Days=7
 D1=24-05-2025
 D1_L=14
 D1_L1=[57594]Project Opened.
@@ -143,6 +143,14 @@ D6_L37=[76608]Stopped Editing.
 D6_L38=[76685]Started Editing.
 D6_L39=[78636]Stopped Editing.
 D6_L40=[81504]Started Editing.
+D7=01-06-2025
+D7_L=6
+D7_L1=[9105]Project Opened.
+D7_L2=[9124]Started Editing.
+D7_L3=[9424]Stopped Editing.
+D7_L4=[11034]Project Closed.
+D7_L5=[64987]Project Opened.
+D7_L6=[65005]Started Editing.
 
 [Opened Files]
 1=main.c

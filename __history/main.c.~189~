@@ -77,6 +77,10 @@ struct {
    unsigned delay_time : 2;
 } gameSettings;
 
+char easy[]   = "EASY";
+char medium[] = "MEDIUM";
+char hard[]   = "HARD";
+
 // glcd part
 void fillCell(signed int gx, signed int gy, int1 color) {
    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return;
@@ -184,22 +188,23 @@ void showSplashScreen() {
 
 
 void displayDifficulty(uchar index) {
-   char difficultyText[16];
+   char difficultyText[16];  // Yazý için buffer
+
+   // SATIRIN TAMAMINI TEMÝZLE (Yüksekliði artýrdýk: 30-42)
    for (uchar x = 0; x < 128; x++) {
       for (uchar y = 30; y < 43; y++) {
          glcd_pixel(x, y, 0);
       }
    }
+
+   // Yazýyý RAM'de oluþtur
    switch(index) {
       case 0: strcpy(difficultyText, "< EASY >"); break;
       case 1: strcpy(difficultyText, "< MEDIUM >"); break;
       case 2: strcpy(difficultyText, "< HARD >"); break;
    }
 
-   int text_length = strlen(difficultyText);
-   int pos_x = (128 - (text_length * 6)) / 2;
-   
-   glcd_text57(pos_x, 32, difficultyText, 1, 1);
+   glcd_text57(34, 32, difficultyText, 1, 1);  // sabit X:34 ve Y:32 uygundur
 }
 
 
