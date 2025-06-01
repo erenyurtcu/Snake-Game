@@ -1,0 +1,335 @@
+#include <16F877A.h> // microcontroller definition for PIC16F877A
+#fuses HS,NOWDT,NOPROTECT,NOLVP // high speed oscillator, no reset, no code protection, no low-voltage programming
+#use delay(clock=16000000) // sets clock frequency to 16 MHz
+#include <stdlib.h> // standard library for random number functions (rand())
+#include <glcd.c> // glcd driver for graphics operations
+
+#include <stdio.h> // standard I/O for string formatting (sprintf)
+#define uchar unsigned char // alias for unsigned char
+#define GRID_SIZE       6  // size of each grid cell (6x6 pixels)
+#define GRID_COLS      10  // number of columns in the grid
+#define GRID_ROWS      10  // number of rows in the grid
+#define GRID_ORIGIN_X   0  // x starting position of the grid
+#define GRID_ORIGIN_Y   0  // y starting position of the grid
+#define BUZZER_PIN   PIN_B3 // buzzer connected to pin RB3
+
+/// buzzer part
+void buzzer_beep(int duration_ms) { // makes the buzzer beep for given time in ms
+    int cycles = duration_ms * 1000L / 2000; // calculates number of on/off cycles (each 2ms = one square wave cycle)
+    for (int i = 0; i < cycles; i++) { // repeat for calculated number of cycles
+        output_low(BUZZER_PIN);     // turn buzzer on (active-low)
+        delay_us(1000);             // wait 1 ms (half cycle)
+        output_high(BUZZER_PIN);    // turn buzzer off
+        delay_us(1000);             // wait 1 ms (half cycle)
+        // 1 ms on + 1 ms off = 2 ms full cycle --› creates ~500 Hz square wave
+    }
+    output_high(BUZZER_PIN); // ensure buzzer is off at the end
+}
+
+void short_beep() { // plays a short beep
+    buzzer_beep(100); // beep for 100 ms
+}
+
+void error_beep() { // plays error beep pattern
+    buzzer_beep(1000); // beep 1 sec
+    delay_ms(200);     // short pause
+    buzzer_beep(1000); // beep 1 sec
+    delay_ms(200);     // short pause
+    buzzer_beep(700);  // beep 0.7 sec
+    delay_ms(200);     // short pause
+}
+
+void win_melody() { // plays win melody using buzzer
+    int notes[] = {200, 100, 100, 400, 200, 150, 600, 300}; // note durations in ms
+    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0};     // pause durations after each note
+    for (int i = 0; i < 8; i++) {
+        buzzer_beep(notes[i]); // play note
+        delay_ms(gaps[i]);     // wait between notes
+    }
+}
+
+uchar snakeX[32]; // x positions of segments 0–31
+uchar snakeY[32]; // y positions of segments 0–31
+uchar snakeX2[32]; // x positions of segments 32–63
+uchar snakeY2[32]; // y positions of segments 32–63
+
+#define getX(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32]) // get x of segment i (uses snakeX for 0–31, snakeX2 for 32–63)
+#define getY(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32]) // get y of segment i (splits into 2 arrays to support up to 64 segments)
+#define setX(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val))) // set x of segment i (split arrays avoid index overflow)
+#define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val))) // set y of segment i (32+ segments handled by second array)
+
+uchar dir = 2; // snake direction (0: left, 1: up, 2: down, 3: right)
+uchar food[2], LENGTH_SNAKE = 5; // food[x, y] and snake length
+uchar posX = 0, posY = 2; // current head position
+uchar score = 0; // current score
+uchar best_score = 0; // best score
+char score_txt[11] = "Score: 00"; // score string for display
+char best_score_txt[10] = "Best: 00"; // best score string
+char gameover_msg[14] = "GAMEOVER !!!"; // game over text
+char win_msg[] = "YOU WON!"; // win message
+uchar i; // loop counter
+
+int1 isFirstStart = 1; // flag for first game start
+uchar difficulty_index = 0; // 0: easy, 1: medium, 2: hard
+
+struct {
+    unsigned delay_time : 2; // 2-bit speed setting
+} gameSettings; // game settings struct
+
+// glcd part
+void fillCell(signed int gx, signed int gy, int1 color) { // fills a grid cell at (gx, gy) with given color
+    if (gx < 0 || gx >= GRID_COLS || gy < 0 || gy >= GRID_ROWS) return; // skip if outside grid
+    uchar px = GRID_ORIGIN_X + gx * GRID_SIZE + 1; // x pixel start position inside cell
+    uchar py = GRID_ORIGIN_Y + gy * GRID_SIZE + 1; // y pixel start position inside cell
+    for (uchar dx = 0; dx < GRID_SIZE - 1; dx++)       // loop through cell width
+      for (uchar dy = 0; dy < GRID_SIZE - 1; dy++)     // loop through cell height
+          glcd_pixel(px + dx, py + dy, color);         // draw each pixel inside cell
+}
+
+void screenWipeDown() { // fills screen line by line from top to bottom
+    for (uchar y = 0; y < 64; y++) { // loop through rows (64 lines)
+      for (uchar x = 0; x < 128; x++) { // loop through columns (128 pixels wide)
+          glcd_pixel(x, y, 1); // turn on pixel at (x, y)
+      }
+      delay_ms(5); // delay for wipe animation effect
+    }
+}
+
+void drawGrid() { // draws vertical and horizontal grid lines
+    for (uchar c = 0; c <= GRID_COLS; c++) { // vertical lines
+      uchar x = GRID_ORIGIN_X + c * GRID_SIZE; // x coordinate of line
+      glcd_line(x, GRID_ORIGIN_Y, x, GRID_ORIGIN_Y + GRID_ROWS * GRID_SIZE, 1);
+    }
+    for (uchar r = 0; r <= GRID_ROWS; r++) { // horizontal lines
+      uchar y = GRID_ORIGIN_Y + r * GRID_SIZE; // y coordinate of line
+      glcd_line(GRID_ORIGIN_X, y, GRID_ORIGIN_X + GRID_COLS * GRID_SIZE, y, 1);
+    }
+}
+
+void clearScoreArea() { // clears the area where score is shown
+    for (uchar x = 65; x < 125; x++) {
+      for (uchar y = 0; y < 20; y++) {
+          glcd_pixel(x, y, 0); // turn off pixel at (x, y)
+      }
+    }
+}
+
+void writeScore() { // displays current and best score on screen
+    clearScoreArea(); // clear old score
+    glcd_text57(65, 0, score_txt, 1, 1); // draw current score
+    glcd_text57(65, 10, best_score_txt, 1, 1); // draw best score
+}
+
+void generateFood() { // randomly places food at an empty cell
+    uchar valid = 0;
+    while (!valid) {
+      food[0] = rand() % GRID_COLS; // random x
+      food[1] = rand() % GRID_ROWS; // random y
+      valid = 1; // assume valid
+      for (uchar j = 0; j < LENGTH_SNAKE; j++) {
+          if (getX(j) == food[0] && getY(j) == food[1]) { // check overlap
+              valid = 0; // invalid if overlaps
+              break;
+          }
+      }
+    }
+    fillCell(food[0], food[1], 1); // draw food on screen
+}
+
+void gameover() { // handles game over state
+    error_beep(); // play error sound
+    error_beep(); // play error sound
+    LENGTH_SNAKE = 5; // reset length
+    posX = 0; posY = 2; // reset head position
+    score = 0; // reset score
+    score_txt[7] = '0'; score_txt[8] = '0'; // reset score text
+    dir = 2; // reset direction to down
+
+    glcd_fillScreen(0); // clear screen
+    glcd_text57(25, 30, gameover_msg, 1, 1); // show "game over" 5x7
+    delay_ms(1500); // wait for display
+    screenWipeDown(); // wipe animation
+    glcd_fillScreen(0); // clear screen again
+    drawGrid(); // redraw grid
+}
+
+void winScreen() { // handles win state when snake is full
+    win_melody(); // play win sound
+    win_melody(); // play win sound
+    glcd_fillScreen(0); // clear screen
+    glcd_text57(35, 35, win_msg, 1, 1); // show win message
+    delay_ms(2500); // wait for display
+    screenWipeDown(); // wipe animation
+    glcd_fillScreen(0); // clear screen again
+    drawGrid(); // redraw grid
+    LENGTH_SNAKE = 5; posX = 0; posY = 2; // reset game state
+    score = 0; score_txt[7] = '0'; score_txt[8] = '0';
+    dir = 2;
+}
+
+void showSplashScreen() { // shows game title at start
+    char serpenti_txt[] = "SERPENTI";
+    char snakegame_txt[] = "SNAKE GAME";
+
+    glcd_fillScreen(0); // clear screen
+    glcd_text57(40, 22, serpenti_txt, 1, 1); // show title
+    glcd_text57(34, 34, snakegame_txt, 1, 1); // show subtitle
+    delay_ms(2000); // wait before starting
+}
+
+void displayDifficulty(uchar index) { // Function to display the selected difficulty level on the screen.
+    char difficultyText[16]; // Character array to hold the difficulty level string.
+    for (uchar x = 0; x < 128; x++) { // Clears a specific area on the screen before displaying the new difficulty text. This is to remove previous text.
+      for (uchar y = 30; y < 43; y++) {
+          glcd_pixel(x, y, 0); // Sets pixels in this range to black.
+      }
+    }
+    switch(index) { // Uses a switch statement to determine the text based on the 'difficulty_index'.
+      case 0: strcpy(difficultyText, "< EASY >"); break; // If index is 0, set text to "< EASY >".
+      case 1: strcpy(difficultyText, "< MEDIUM >"); break; // If index is 1, set text to "< MEDIUM >".
+      case 2: strcpy(difficultyText, "< HARD >"); break; // If index is 2, set text to "< HARD >".
+    }
+
+    int text_length = strlen(difficultyText); // Calculates the length of the difficulty text string.
+    int pos_x = (128 - (text_length * 6)) / 2; // Calculates the X-coordinate to center the text horizontally. (6 pixels per character for text57 font).
+    
+    glcd_text57(pos_x, 32, difficultyText, 1, 1); // Displays the difficulty text on the GLCD at the calculated centered position.
+}
+
+void selectDifficulty() { // Function to allow the user to select the game difficulty.
+    char title[] = "SELECT DIFFICULTY"; // String for the difficulty selection title.
+    glcd_fillScreen(0); // Clears the screen.
+    glcd_text57(13, 18, title, 1, 1); // Displays the "SELECT DIFFICULTY" title.
+    displayDifficulty(difficulty_index); // Displays the initial difficulty based on 'difficulty_index'.
+
+    int1 prev_left = 0, prev_right = 0, prev_select = 0; // Variables to store the previous state of the input buttons (for edge detection).
+
+    while(TRUE) { // Loops indefinitely until a difficulty is selected.
+      int1 curr_left = input(PIN_C4); // Reads the current state of the left button (connected to PIN_C4).
+      int1 curr_right = input(PIN_C3); // Reads the current state of the right button (connected to PIN_C3).
+      int1 curr_select = input(PIN_C5); // Reads the current state of the select button (connected to PIN_C5).
+
+      if (curr_right && !prev_right) { // Checks if the right button is currently pressed AND was not pressed in the previous iteration (button press detection).
+          if (difficulty_index < 2) { // Ensures the difficulty index does not exceed the maximum (2 for Hard).
+              difficulty_index++; // Increments the difficulty index.
+              displayDifficulty(difficulty_index); // Updates the displayed difficulty.
+              short_beep(); // Plays a short beep for confirmation.
+          }
+      }
+
+      if (curr_left && !prev_left) { // Checks for a press on the left button.
+          if (difficulty_index > 0) { // Ensures the difficulty index does not go below the minimum (0 for Easy).
+              difficulty_index--; // Decrements the difficulty index.
+              displayDifficulty(difficulty_index); // Updates the displayed difficulty.
+              short_beep(); // Plays a short beep.
+          }
+      }
+
+      if (curr_select && !prev_select) { // Checks for a press on the select button.
+          switch (difficulty_index) { // Sets the 'delay_time' in 'gameSettings' based on the selected difficulty.
+            case 0: gameSettings.delay_time = 3; break; // Easy: Longest delay (slowest speed).
+            case 1: gameSettings.delay_time = 2; break; // Medium: Medium delay.
+            case 2: gameSettings.delay_time = 1; break; // Hard: Shortest delay (fastest speed).
+          }
+          buzzer_beep(100);  // Plays a confirmation beep for selection.
+          delay_ms(300); // Pauses briefly after selection.
+          return; // Exits the function, as difficulty has been selected.
+      }
+
+      prev_left = curr_left; // Updates previous button states for the next iteration.
+      prev_right = curr_right;
+      prev_select = curr_select;
+
+      delay_ms(50); // Small delay to debounce buttons and control button reading frequency.
+    }
+}
+
+void main() { // The main function where the program execution begins.
+    set_tris_b(0b00000111); // Configures the data direction registers for PORTB. 0b00000111 means the lower 3 bits (B0, B1, B2) are set as inputs (1), and the rest are outputs (0). PIN_B3 (buzzer) is an output.
+    output_high(BUZZER_PIN); // Ensures the buzzer is initially OFF (active-high operation assumed, though active-low in `buzzer_beep` implies initial high to turn off).
+
+    glcd_init(ON); // Initializes the GLCD display. 'ON' argument likely turns on the display.
+    glcd_fillScreen(0); // Clears the entire GLCD screen to black.
+    delay_ms(500); // A brief delay after GLCD initialization.
+
+Start: // A label for a 'goto' statement. Used to restart the game loop after game over or win.
+    if (isFirstStart) { // Checks if this is the very first start of the game.
+      buzzer_beep(100); // Plays a short beep.
+      showSplashScreen(); // Displays the game's splash screen.
+      screenWipeDown(); // Performs a screen wipe effect.
+      selectDifficulty(); // Prompts the user to select the game difficulty.
+      isFirstStart = 0; // Sets the flag to 0 so these initial screens don't show again in subsequent games.
+    }
+
+    glcd_fillScreen(0); // Clears the screen to black for the new game.
+    drawGrid(); // Draws the game grid.
+    writeScore(); // Displays the initial score (00) and best score.
+    generateFood(); // Generates and places the first food item.
+
+    for (i = 0; i < LENGTH_SNAKE; i++) { // Initializes the snake's body segments.
+      setX(i, posX - i); // Sets the X-coordinate of each snake segment. The head is at posX, and subsequent segments extend to the left.
+      setY(i, posY); // Sets the Y-coordinate of all snake segments to posY.
+      fillCell(getX(i), getY(i), 1); // Draws each initial snake segment on the GLCD.
+    }
+
+    while (TRUE) { // The main game loop, runs continuously.
+      // Button input handling for snake direction:
+      // PIN_C3 (Right button), PIN_C2 (Down button), PIN_C1 (Up button), PIN_C4 (Left button), PIN_C5 (Select/Reset button)
+      // Each 'if' statement checks for a button press and ensures the new direction is not the opposite of the current one (e.g., cannot go directly left if currently moving right).
+      if (input(PIN_C3) && dir != 0) { dir = 3; short_beep(); } // Right button (PIN_C3), if not moving left. Sets direction to Right (3).
+      if (input(PIN_C2) && dir != 1) { dir = 2; short_beep(); } // Down button (PIN_C2), if not moving up. Sets direction to Down (2).
+      if (input(PIN_C1) && dir != 2) { dir = 1; short_beep(); } // Up button (PIN_C1), if not moving down. Sets direction to Up (1).
+      if (input(PIN_C4) && dir != 3) { dir = 0; short_beep(); } // Left button (PIN_C4), if not moving right. Sets direction to Left (0).
+      if (input(PIN_C5)) { gameover(); goto Start; } // If the select button (PIN_C5) is pressed, end the game and go to the 'Start' label to restart.
+
+      // Update snake head position based on current direction:
+      switch(dir) {
+          case 0: if (posX == 0) { gameover(); goto Start; } else posX--; break; // Move Left: Decrement posX. If hits left wall (posX=0), game over.
+          case 1: if (posY == 0) { gameover(); goto Start; } else posY--; break; // Move Up: Decrement posY. If hits top wall (posY=0), game over.
+          case 2: if (posY == GRID_ROWS - 1) { gameover(); goto Start; } else posY++; break; // Move Down: Increment posY. If hits bottom wall, game over.
+          case 3: if (posX == GRID_COLS - 1) { gameover(); goto Start; } else posX++; break; // Move Right: Increment posX. If hits right wall, game over.
+      }
+
+      // Update snake body segments:
+      uchar tailX = getX(0), tailY = getY(0); // Stores the current position of the snake's tail (first segment).
+      for (i = 0; i < LENGTH_SNAKE - 1; i++) { // Shifts all existing snake segments forward by one position.
+          setX(i, getX(i + 1)); // The X-coordinate of the current segment becomes the X-coordinate of the next segment.
+          setY(i, getY(i + 1)); // The Y-coordinate of the current segment becomes the Y-coordinate of the next segment.
+      }
+      setX(LENGTH_SNAKE - 1, posX); // The last segment (which is now the new head) takes the calculated new head position.
+      setY(LENGTH_SNAKE - 1, posY); // The last segment (new head) takes the calculated new head position.
+
+      // Check for self-collision:
+      for (i = 0; i < LENGTH_SNAKE - 1; i++) { // Iterates through all snake segments EXCEPT the head itself.
+          if (getX(i) == posX && getY(i) == posY) { // If the snake's head (posX, posY) collides with any of its body segments.
+              gameover(); goto Start; // Game over, restart.
+          }
+      }
+
+      fillCell(posX, posY, 1); // Draws the new head of the snake (turns the cell white).
+      fillCell(tailX, tailY, 0); // Clears the previous tail position (turns the cell black), simulating movement.
+
+      // Check for food consumption:
+      if (posX == food[0] && posY == food[1]) { // If the snake's head is at the same position as the food.
+          buzzer_beep(50); // Plays a short beep to indicate food consumption.
+          LENGTH_SNAKE++; // Increases the snake's length.
+          if (LENGTH_SNAKE >= 64) { // Checks if the snake has reached the maximum possible length (winning condition).
+              winScreen(); goto Start; // If maximum length, display win screen and restart.
+          }
+          generateFood(); // Generates a new food item.
+          score++; // Increments the current score.
+          score_txt[7] = '0' + (score / 10); // Updates the tens digit of the score text.
+          score_txt[8] = '0' + (score % 10); // Updates the units digit of the score text.
+
+          if (score > best_score) { // Checks if the current score is a new best score.
+              best_score = score; // Updates the best score.
+              best_score_txt[7] = '0' + (best_score / 10); // Updates the tens digit of the best score text.
+              best_score_txt[8] = '0' + (best_score % 10); // Updates the units digit of the best score text.
+          }
+
+          writeScore(); // Redraws the score display on the GLCD to show updated scores.
+      }
+
+      delay_ms(gameSettings.delay_time * 300); // Controls the game speed. The actual delay is 'delay_time' (1, 2, or 3) multiplied by 300 milliseconds. A higher 'delay_time' means a slower game.
+    }
+}

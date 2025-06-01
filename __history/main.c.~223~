@@ -39,13 +39,12 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
-void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
-
-    for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+void win_melody() { // plays win melody using buzzer
+    int notes[] = {200, 100, 100, 400, 200, 150, 600, 300}; // note durations in ms
+    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0};     // pause durations after each note
+    for (int i = 0; i < 8; i++) {
+        buzzer_beep(notes[i]); // play note
+        delay_ms(gaps[i]);     // wait between notes
     }
 }
 
@@ -60,7 +59,7 @@ uchar snakeY2[32]; // y positions of segments 32–63
 #define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val))) // set y of segment i (32+ segments handled by second array)
 
 uchar dir = 2; // snake direction (0: left, 1: up, 2: down, 3: right)
-uchar food[2], LENGTH_SNAKE = 64; // food[x, y] and snake length
+uchar food[2], LENGTH_SNAKE = 5; // food[x, y] and snake length
 uchar posX = 0, posY = 2; // current head position
 uchar score = 0; // current score
 uchar best_score = 0; // best score
@@ -246,97 +245,92 @@ void selectDifficulty() { // lets user choose game difficulty
     }
 }
 
-void main() { // entry point of the program
-    output_high(BUZZER_PIN); // buzzer initially off (active-low)
+void main() { // The main function where the program execution begins.
+    set_tris_b(0b00000111); // Configures the data direction registers for PORTB. 0b00000111 means the lower 3 bits (B0, B1, B2) are set as inputs (1), and the rest are outputs (0). PIN_B3 (buzzer) is an output.
+    output_high(BUZZER_PIN); // Ensures the buzzer is initially OFF (active-high operation assumed, though active-low in `buzzer_beep` implies initial high to turn off).
 
-    glcd_init(ON); // initialize glcd
-    glcd_fillScreen(0); // clear glcd screen
-    delay_ms(500); // wait for stabilization
+    glcd_init(ON); // Initializes the GLCD display. 'ON' argument likely turns on the display.
+    glcd_fillScreen(0); // Clears the entire GLCD screen to black.
+    delay_ms(500); // A brief delay after GLCD initialization.
 
-Start: // label for game restart
-    if (isFirstStart) { // only for first run
-        showSplashScreen(); // show splash
-        screenWipeDown(); // visual effect
-        selectDifficulty(); // choose difficulty
-        isFirstStart = 0; // disable intro on next runs
+Start: // A label for a 'goto' statement. Used to restart the game loop after game over or win.
+    if (isFirstStart) { // Checks if this is the very first start of the game.
+      buzzer_beep(100); // Plays a short beep.
+      showSplashScreen(); // Displays the game's splash screen.
+      screenWipeDown(); // Performs a screen wipe effect.
+      selectDifficulty(); // Prompts the user to select the game difficulty.
+      isFirstStart = 0; // Sets the flag to 0 so these initial screens don't show again in subsequent games.
     }
 
-    glcd_fillScreen(0); // clear screen
-    drawGrid(); // draw game grid
-    writeScore(); // show initial score
-    generateFood(); // place first food
+    glcd_fillScreen(0); // Clears the screen to black for the new game.
+    drawGrid(); // Draws the game grid.
+    writeScore(); // Displays the initial score (00) and best score.
+    generateFood(); // Generates and places the first food item.
 
-    for (i = 0; i < LENGTH_SNAKE; i++) { // init snake segments
-        setX(i, posX - i); // x position from head to tail
-        setY(i, posY); // y position constant
-        fillCell(getX(i), getY(i), 1); // draw segment
+    for (i = 0; i < LENGTH_SNAKE; i++) { // Initializes the snake's body segments.
+      setX(i, posX - i); // Sets the X-coordinate of each snake segment. The head is at posX, and subsequent segments extend to the left.
+      setY(i, posY); // Sets the Y-coordinate of all snake segments to posY.
+      fillCell(getX(i), getY(i), 1); // Draws each initial snake segment on the GLCD.
     }
 
-    while (TRUE) { // main game loop
-        if (input(PIN_C3) && dir != 0) { dir = 3; short_beep(); } // right
-        if (input(PIN_C2) && dir != 1) { dir = 2; short_beep(); } // down
-        if (input(PIN_C1) && dir != 2) { dir = 1; short_beep(); } // up
-        if (input(PIN_C4) && dir != 3) { dir = 0; short_beep(); } // left
-        if (input(PIN_C5)) { gameover(); goto Start; } // reset button
+    while (TRUE) { // The main game loop, runs continuously.
+      // Button input handling for snake direction:
+      // PIN_C3 (Right button), PIN_C2 (Down button), PIN_C1 (Up button), PIN_C4 (Left button), PIN_C5 (Select/Reset button)
+      // Each 'if' statement checks for a button press and ensures the new direction is not the opposite of the current one (e.g., cannot go directly left if currently moving right).
+      if (input(PIN_C3) && dir != 0) { dir = 3; short_beep(); } // Right button (PIN_C3), if not moving left. Sets direction to Right (3).
+      if (input(PIN_C2) && dir != 1) { dir = 2; short_beep(); } // Down button (PIN_C2), if not moving up. Sets direction to Down (2).
+      if (input(PIN_C1) && dir != 2) { dir = 1; short_beep(); } // Up button (PIN_C1), if not moving down. Sets direction to Up (1).
+      if (input(PIN_C4) && dir != 3) { dir = 0; short_beep(); } // Left button (PIN_C4), if not moving right. Sets direction to Left (0).
+      if (input(PIN_C5)) { gameover(); goto Start; } // If the select button (PIN_C5) is pressed, end the game and go to the 'Start' label to restart.
 
-        switch(dir) { // update head position
-            case 0: if (posX == 0) { gameover(); goto Start; } else posX--; break;
-            case 1: if (posY == 0) { gameover(); goto Start; } else posY--; break;
-            case 2: if (posY == GRID_ROWS - 1) { gameover(); goto Start; } else posY++; break;
-            case 3: if (posX == GRID_COLS - 1) { gameover(); goto Start; } else posX++; break;
-        }
+      // Update snake head position based on current direction:
+      switch(dir) {
+          case 0: if (posX == 0) { gameover(); goto Start; } else posX--; break; // Move Left: Decrement posX. If hits left wall (posX=0), game over.
+          case 1: if (posY == 0) { gameover(); goto Start; } else posY--; break; // Move Up: Decrement posY. If hits top wall (posY=0), game over.
+          case 2: if (posY == GRID_ROWS - 1) { gameover(); goto Start; } else posY++; break; // Move Down: Increment posY. If hits bottom wall, game over.
+          case 3: if (posX == GRID_COLS - 1) { gameover(); goto Start; } else posX++; break; // Move Right: Increment posX. If hits right wall, game over.
+      }
 
-        uchar tailX = getX(0), tailY = getY(0); // store tail position
-        for (i = 0; i < LENGTH_SNAKE - 1; i++) {
-            setX(i, getX(i + 1)); // shift x
-            setY(i, getY(i + 1)); // shift y
-        }
-        setX(LENGTH_SNAKE - 1, posX); // new head x
-        setY(LENGTH_SNAKE - 1, posY); // new head y
+      // Update snake body segments:
+      uchar tailX = getX(0), tailY = getY(0); // Stores the current position of the snake's tail (first segment).
+      for (i = 0; i < LENGTH_SNAKE - 1; i++) { // Shifts all existing snake segments forward by one position.
+          setX(i, getX(i + 1)); // The X-coordinate of the current segment becomes the X-coordinate of the next segment.
+          setY(i, getY(i + 1)); // The Y-coordinate of the current segment becomes the Y-coordinate of the next segment.
+      }
+      setX(LENGTH_SNAKE - 1, posX); // The last segment (which is now the new head) takes the calculated new head position.
+      setY(LENGTH_SNAKE - 1, posY); // The last segment (new head) takes the calculated new head position.
 
-        for (i = 0; i < LENGTH_SNAKE - 1; i++) { // check self-collision
-            if (getX(i) == posX && getY(i) == posY) {
-                gameover(); goto Start;
-            }
-        }
+      // Check for self-collision:
+      for (i = 0; i < LENGTH_SNAKE - 1; i++) { // Iterates through all snake segments EXCEPT the head itself.
+          if (getX(i) == posX && getY(i) == posY) { // If the snake's head (posX, posY) collides with any of its body segments.
+              gameover(); goto Start; // Game over, restart.
+          }
+      }
 
-        fillCell(posX, posY, 1); // draw new head
-        fillCell(tailX, tailY, 0); // clear old tail
+      fillCell(posX, posY, 1); // Draws the new head of the snake (turns the cell white).
+      fillCell(tailX, tailY, 0); // Clears the previous tail position (turns the cell black), simulating movement.
 
-        if (posX == food[0] && posY == food[1]) { // food eaten
-            buzzer_beep(100); // eat sound
-            // store old tail before growing
-            uchar oldTailX = getX(0);
-            uchar oldTailY = getY(0);
-      
-            if (LENGTH_SNAKE >= 64) {
-                winScreen();
-                goto Start;
-            }
+      // Check for food consumption:
+      if (posX == food[0] && posY == food[1]) { // If the snake's head is at the same position as the food.
+          buzzer_beep(50); // Plays a short beep to indicate food consumption.
+          LENGTH_SNAKE++; // Increases the snake's length.
+          if (LENGTH_SNAKE >= 64) { // Checks if the snake has reached the maximum possible length (winning condition).
+              winScreen(); goto Start; // If maximum length, display win screen and restart.
+          }
+          generateFood(); // Generates a new food item.
+          score++; // Increments the current score.
+          score_txt[7] = '0' + (score / 10); // Updates the tens digit of the score text.
+          score_txt[8] = '0' + (score % 10); // Updates the units digit of the score text.
 
-            LENGTH_SNAKE++; // grow snake
-            // insert new segment at old tail position
-            for (i = LENGTH_SNAKE - 1; i > 0; i--) {
-                setX(i, getX(i - 1));
-                setY(i, getY(i - 1));
-            }
-            setX(0, oldTailX);
-            setY(0, oldTailY);
-            fillCell(oldTailX, oldTailY, 1); // draw new segment immediately
-            generateFood(); // new food
-            score++; // update score
-            score_txt[7] = '0' + (score / 10);
-            score_txt[8] = '0' + (score % 10);
-      
-            if (score > best_score) {
-                best_score = score;
-                best_score_txt[7] = '0' + (best_score / 10);
-                best_score_txt[8] = '0' + (best_score % 10);
-            }
-      
-            writeScore(); // update display
-        }
-        delay_ms(gameSettings.delay_time * 300); // control speed (if I divide by LENGTH_SNAKE, the game gets harder
+          if (score > best_score) { // Checks if the current score is a new best score.
+              best_score = score; // Updates the best score.
+              best_score_txt[7] = '0' + (best_score / 10); // Updates the tens digit of the best score text.
+              best_score_txt[8] = '0' + (best_score % 10); // Updates the units digit of the best score text.
+          }
+
+          writeScore(); // Redraws the score display on the GLCD to show updated scores.
+      }
+
+      delay_ms(gameSettings.delay_time * 300); // Controls the game speed. The actual delay is 'delay_time' (1, 2, or 3) multiplied by 300 milliseconds. A higher 'delay_time' means a slower game.
     }
 }
-

@@ -1,8 +1,8 @@
-C L "MAIN" 0 17 1 "FUNCTION"
-D G "__PCM__" 0 340 ""5.025""
-D G "__DEVICE__" 0 340 "877"
-D G "__DATE__" 0 340 ""01-Haz-25""
-D G "__TIME__" 0 340 ""18:27:33"" "Standard Header file for the PIC16F877A device ////////////////"
+C L "MAIN" 0 16 1 "FUNCTION"
+D G "__PCM__" 0 366 ""5.025""
+D G "__DEVICE__" 0 366 "877"
+D G "__DATE__" 0 366 ""01-Haz-25""
+D G "__TIME__" 0 366 ""23:36:08"" "Standard Header file for the PIC16F877A device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 v L "value" 1 37 "int8" `54 
 f B "set_tris_a" 1 37 "void(int8 value)" `53 
@@ -1341,97 +1341,243 @@ C L "glcd_readByte" 6 2 1 "FUNCTION"
 C L "glcd_readByte" 6 2 1 "FUNCTION"
 C L "glcd_readByte" 6 2 1 "FUNCTION"
 D G "_STDIO" 7 12 ""
-D G "uchar" 0 8 "unsigned char"
-D G "GRID_SIZE" 0 10 "6"
-D G "GRID_COLS" 0 11 "10"
-D G "GRID_ROWS" 0 12 "10"
-D G "GRID_ORIGIN_X" 0 13 "0"
-D G "GRID_ORIGIN_Y" 0 14 "0"
-D G "BUZZER_PIN" 0 15 "PIN_B3"
-C L "buzzer_beep" 0 17 1 "FUNCTION"
-V L "duration_ms" 0 18 "int8" `984 
-F G "buzzer_beep" 0 18 "void(int8 duration_ms)" `983 
-V L "cycles" 0 19 "int8" `985 
-V L "i" 0 20 "int8" `986 
-C L "buzzer_beep" 0 17 1 "FUNCTION"
-C L "buzzer_beep" 0 17 1 "FUNCTION"
-F G "short_beep" 0 29 "void()" `987 
-F G "error_beep" 0 33 "void()" `988 
-F G "win_melody" 0 42 "void()" `989 
-V L "notes" 0 43 "int8[1]" `990 
-V L "gaps" 0 44 "int8[1]" `991 
-V L "i" 0 46 "int8" `992 
-V G "snakeX" 0 52 "int8[32]" `993 
-V G "snakeY" 0 53 "int8[32]" `994 
-V G "snakeX2" 0 54 "int8[32]" `995 
-V G "snakeY2" 0 55 "int8[32]" `996 
-D G "getX" 0 57 "(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])"
-D G "getY" 0 58 "(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])"
-D G "setX" 0 59 "(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val)))"
-D G "setY" 0 60 "(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))"
-V G "dir" 0 62 "int8" `997 
-V G "food" 0 63 "int8[2]" `998 
-V G "LENGTH_SNAKE" 0 63 "int8" `999 
-V G "posX" 0 64 "int8" `1000 
-V G "posY" 0 64 "int8" `1001 
-V G "score" 0 65 "int8" `1002 
-V G "best_score" 0 66 "int8" `1003 
-V G "score_txt" 0 67 "int8[11]" `1004 
-V G "best_score_txt" 0 68 "int8[10]" `1005 
-V G "gameover_msg" 0 69 "int8[14]" `1006 
-V G "win_msg" 0 70 "int8[1]" `1007 
-V G "i" 0 71 "int8" `1008 
-V G "isFirstStart" 0 73 "int1" `1009 
-V G "difficulty_index" 0 74 "int8" `1010 
-V G "gameSettings" 0 78 "{int2 delay_time}" `1013  "glcd part"
-V L "gx" 0 81 "sint8" `1015 
-V L "gy" 0 81 "sint8" `1016 
-V L "color" 0 81 "int8" `1017 
-F G "fillCell" 0 81 "void(sint8 gx,sint8 gy,int8 color)" `1014 
-V L "px" 0 83 "int8" `1018 
-V L "py" 0 84 "int8" `1019 
-V L "dx" 0 85 "int8" `1020 
-V L "dy" 0 86 "int8" `1021 
-F G "screenWipeDown" 0 90 "void()" `1022 
-V L "y" 0 91 "int8" `1023 
-V L "x" 0 92 "int8" `1024 
-F G "drawGrid" 0 99 "void()" `1025 
-V L "c" 0 100 "int8" `1026 
-V L "x" 0 101 "int8" `1027 
-V L "r" 0 104 "int8" `1028 
-V L "y" 0 105 "int8" `1029 
-F G "clearScoreArea" 0 110 "void()" `1030 
-V L "x" 0 111 "int8" `1031 
-V L "y" 0 112 "int8" `1032 
-F G "writeScore" 0 118 "void()" `1033 
-F G "criar_comida" 0 124 "void()" `1034 
-V L "valid" 0 125 "int8" `1035 
-V L "j" 0 130 "int8" `1036 
-F G "gameover" 0 140 "void()" `1037 
-F G "winScreen" 0 158 "void()" `1038 
-F G "showSplashScreen" 0 175 "void()" `1039 
-V L "serpenti_txt" 0 176 "int8[1]" `1040 
-V L "snakegame_txt" 0 177 "int8[1]" `1041 
-V L "index" 0 186 "int8" `1043 
-F G "displayDifficulty" 0 186 "void(int8 index)" `1042 
-V L "difficultyText" 0 187 "int8[16]" `1044 
-V L "x" 0 188 "int8" `1045 
-V L "y" 0 189 "int8" `1046 
-V L "text_length" 0 199 "int8" `1050 
-V L "pos_x" 0 200 "int8" `1051 
-F G "selectDifficulty" 0 207 "void()" `1052 
-V L "title" 0 208 "int8[1]" `1053 
-V L "prev_left" 0 213 "int1" `1054 
-V L "prev_right" 0 213 "int1" `1055 
-V L "prev_select" 0 213 "int1" `1056 
-V L "curr_left" 0 216 "int1" `1057 
-V L "curr_right" 0 217 "int1" `1058 
-V L "curr_select" 0 218 "int1" `1059 
-C L "selectDifficulty" 0 17 1 "FUNCTION"
-C L "selectDifficulty" 0 17 1 "FUNCTION"
-F G "MAIN" 0 256 "void()" `1060 
-V L "tailX" 0 298 "int8" `1065 
-V L "tailY" 0 298 "int8" `1066 
+D G "uchar" 0 8 "unsigned char" "alias for unsigned char"
+D G "GRID_SIZE" 0 9 "6" "size of each grid cell (6x6 pixels)"
+D G "GRID_COLS" 0 10 "10" "number of columns in the grid"
+D G "GRID_ROWS" 0 11 "10" "number of rows in the grid"
+D G "GRID_ORIGIN_X" 0 12 "0" "x starting position of the grid"
+D G "GRID_ORIGIN_Y" 0 13 "0" "y starting position of the grid"
+D G "BUZZER_PIN" 0 14 "PIN_B3" "buzzer connected to pin RB3"
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+V L "duration_ms" 0 17 "int8" `984 
+F G "buzzer_beep" 0 17 "void(int8 duration_ms)" `983  "makes the buzzer beep for given time in ms"
+V L "cycles" 0 18 "int8" `985 
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+V L "i" 0 19 "int8" `986 
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+C L "buzzer_beep" 0 16 2 "FUNCTION"
+C L "buzzer_beep" 0 16 1 "FUNCTION"
+F G "short_beep" 0 29 "void()" `987  "plays a short beep"
+C L "short_beep" 0 16 1 "FUNCTION"
+F G "error_beep" 0 33 "void()" `988  "plays error beep pattern"
+C L "error_beep" 0 16 1 "FUNCTION"
+C L "error_beep" 0 16 1 "FUNCTION"
+C L "error_beep" 0 16 1 "FUNCTION"
+C L "error_beep" 0 16 1 "FUNCTION"
+C L "error_beep" 0 16 1 "FUNCTION"
+C L "error_beep" 0 16 1 "FUNCTION"
+F G "win_melody" 0 44 "void(int8 freq,int8 duration_ms)" `989 
+V L "notes" 0 45 "int8[1]" `990 
+C L "win_melody" 0 16 1 "FUNCTION"
+V L "gaps" 0 46 "int8[1]" `991 
+C L "win_melody" 0 16 1 "FUNCTION"
+V L "i" 0 48 "int8" `992 
+C L "win_melody" 0 16 1 "FUNCTION"
+C L "win_melody" 0 16 1 "FUNCTION"
+V G "snakeX" 0 55 "int8[32]" `993  "x positions of segments 0–31"
+V G "snakeY" 0 56 "int8[32]" `994  "y positions of segments 0–31"
+V G "snakeX2" 0 57 "int8[32]" `995  "x positions of segments 32–63"
+V G "snakeY2" 0 58 "int8[32]" `996  "y positions of segments 32–63"
+D G "getX" 0 60 "(i) ((i < 32) ? snakeX[i] : snakeX2[(i)-32])" "get x of segment i (uses snakeX for 0–31, snakeX2 for 32–63)"
+D G "getY" 0 61 "(i) ((i < 32) ? snakeY[i] : snakeY2[(i)-32])" "get y of segment i (splits into 2 arrays to support up to 64 segments)"
+D G "setX" 0 62 "(i,val) ((i < 32) ? (snakeX[i]=(val)) : (snakeX2[(i)-32]=(val)))" "set x of segment i (split arrays avoid index overflow)"
+D G "setY" 0 63 "(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val)))" "set y of segment i (32+ segments handled by second array)"
+V G "dir" 0 65 "int8" `997 
+V G "food" 0 66 "int8[2]" `998 
+V G "LENGTH_SNAKE" 0 66 "int8" `999 
+V G "posX" 0 67 "int8" `1000 
+V G "posY" 0 67 "int8" `1001 
+V G "score" 0 68 "int8" `1002 
+V G "best_score" 0 69 "int8" `1003 
+V G "score_txt" 0 70 "int8[11]" `1004 
+V G "best_score_txt" 0 71 "int8[10]" `1005 
+V G "gameover_msg" 0 72 "int8[14]" `1006 
+V G "win_msg" 0 73 "int8[1]" `1007 
+V G "i" 0 74 "int8" `1008  "loop counter"
+V G "isFirstStart" 0 76 "int1" `1009 
+V G "difficulty_index" 0 77 "int8" `1010 
+V G "gameSettings" 0 81 "{int2 delay_time}" `1013  "game settings struct"
+C L "fillCell" 0 16 1 "FUNCTION"
+V L "gx" 0 84 "sint8" `1015 
+V L "gy" 0 84 "sint8" `1016 
+V L "color" 0 84 "int8" `1017 
+F G "fillCell" 0 84 "void(sint8 gx,sint8 gy,int8 color)" `1014  "fills a grid cell at (gx, gy) with given color"
+C L "fillCell" 0 16 1 "FUNCTION"
+V L "px" 0 86 "int8" `1018 
+C L "fillCell" 0 16 1 "FUNCTION"
+V L "py" 0 87 "int8" `1019 
+C L "fillCell" 0 16 1 "FUNCTION"
+V L "dx" 0 88 "int8" `1020 
+C L "fillCell" 0 16 1 "FUNCTION"
+V L "dy" 0 89 "int8" `1021 
+C L "fillCell" 0 16 1 "FUNCTION"
+C L "fillCell" 0 16 1 "FUNCTION"
+F G "screenWipeDown" 0 93 "void()" `1022  "fills screen line by line from top to bottom"
+V L "y" 0 94 "int8" `1023 
+C L "screenWipeDown" 0 16 1 "FUNCTION"
+V L "x" 0 95 "int8" `1024 
+C L "screenWipeDown" 0 16 1 "FUNCTION"
+C L "screenWipeDown" 0 16 1 "FUNCTION"
+C L "screenWipeDown" 0 16 1 "FUNCTION"
+F G "drawGrid" 0 102 "void(sint8 gy,int8 color)" `1025  "draws vertical and horizontal grid lines"
+V L "c" 0 103 "int8" `1026 
+C L "drawGrid" 0 16 1 "FUNCTION"
+V L "x" 0 104 "int8" `1027 
+C L "drawGrid" 0 16 1 "FUNCTION"
+V L "r" 0 107 "int8" `1028 
+C L "drawGrid" 0 16 1 "FUNCTION"
+V L "y" 0 108 "int8" `1029 
+C L "drawGrid" 0 16 1 "FUNCTION"
+F G "clearScoreArea" 0 113 "void()" `1030  "clears the area where score is shown"
+V L "x" 0 114 "int8" `1031 
+V L "y" 0 115 "int8" `1032 
+C L "clearScoreArea" 0 16 1 "FUNCTION"
+F G "writeScore" 0 121 "void()" `1033  "displays current and best score on screen"
+C L "writeScore" 0 16 1 "FUNCTION"
+C L "writeScore" 0 16 1 "FUNCTION"
+C L "writeScore" 0 16 1 "FUNCTION"
+F G "generateFood" 0 127 "void()" `1034  "randomly places food at an empty cell"
+V L "valid" 0 128 "int8" `1035 
+C L "generateFood" 0 16 1 "FUNCTION"
+C L "generateFood" 0 16 1 "FUNCTION"
+C L "generateFood" 0 16 1 "FUNCTION"
+V L "j" 0 133 "int8" `1036 
+C L "generateFood" 0 16 1 "FUNCTION"
+C L "generateFood" 0 16 1 "FUNCTION"
+C L "generateFood" 0 16 1 "FUNCTION"
+F G "gameover" 0 143 "void()" `1037  "handles game over state"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+C L "gameover" 0 16 1 "FUNCTION"
+F G "winScreen" 0 160 "void()" `1038  "handles win state when snake is full"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+C L "winScreen" 0 16 1 "FUNCTION"
+F G "showSplashScreen" 0 174 "void()" `1039  "shows game title at start"
+V L "serpenti_txt" 0 175 "int8[1]" `1040 
+V L "snakegame_txt" 0 176 "int8[1]" `1041 
+C L "showSplashScreen" 0 16 1 "FUNCTION"
+C L "showSplashScreen" 0 16 1 "FUNCTION"
+C L "showSplashScreen" 0 16 1 "FUNCTION"
+C L "showSplashScreen" 0 16 1 "FUNCTION"
+V L "index" 0 183 "int8" `1043 
+F G "displayDifficulty" 0 183 "void(int8 index)" `1042  "draws the difficulty text based on index"
+V L "difficultyText" 0 184 "int8[16]" `1044  "buffer for difficulty label"
+V L "x" 0 186 "int8" `1045 
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+V L "y" 0 187 "int8" `1046 
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+V L "text_length" 0 198 "int8" `1050 
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+V L "pos_x" 0 199 "int8" `1051 
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+C L "displayDifficulty" 0 16 1 "FUNCTION"
+F G "selectDifficulty" 0 204 "void(int8 index)" `1052  "lets user choose game difficulty"
+V L "title" 0 205 "int8[1]" `1053 
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+V L "prev_left" 0 210 "int1" `1054 
+V L "prev_right" 0 210 "int1" `1055 
+V L "prev_select" 0 210 "int1" `1056 
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+V L "curr_left" 0 213 "int1" `1057 
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+V L "curr_right" 0 214 "int1" `1058 
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+V L "curr_select" 0 215 "int1" `1059 
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+C L "selectDifficulty" 0 16 1 "FUNCTION"
+F G "MAIN" 0 252 "void()" `1060  "entry point of the program"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+V L "tailX" 0 292 "int8" `1065 
+V L "tailY" 0 292 "int8" `1066 
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 2 "FUNCTION"
+V L "oldTailX" 0 312 "int8" `1067 
+V L "oldTailY" 0 313 "int8" `1068 
+C L "MAIN" 0 16 2 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
+C L "MAIN" 0 16 1 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 0

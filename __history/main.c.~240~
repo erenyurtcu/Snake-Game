@@ -39,15 +39,29 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
-void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
+void win_melody() { // dramatic and long victory melody for PIC16F877A
+    int notes[] = {
+        200, 200, 300, 400,   // intro rising
+        150, 150, 200, 500,   // build tension
+        250, 250, 150, 150,   // rhythmic core
+        600, 400, 500, 200,   // highlight
+        700, 700, 300, 300    // finale
+    };
 
-    for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+    int gaps[] = {
+        60, 60, 100, 120,
+        80, 80, 150, 250,
+        100, 100, 60, 60,
+        200, 200, 300, 100,
+        400, 400, 200, 0
+    };
+
+    for (int i = 0; i < sizeof(notes)/sizeof(notes[0]); i++) {
+        buzzer_beep(notes[i]);   // play tone (duration)
+        delay_ms(gaps[i]);       // pause between tones
     }
 }
+
 
 uchar snakeX[32]; // x positions of segments 0–31
 uchar snakeY[32]; // y positions of segments 0–31

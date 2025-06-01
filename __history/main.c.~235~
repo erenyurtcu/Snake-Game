@@ -39,13 +39,12 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
-void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
-
-    for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+void win_melody() { // plays win melody using buzzer
+    int notes[] = {200, 100, 100, 400, 200, 150, 600, 300}; // note durations in ms
+    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0};     // pause durations after each note
+    for (int i = 0; i < 8; i++) {
+        buzzer_beep(notes[i]); // play note
+        delay_ms(gaps[i]);     // wait between notes
     }
 }
 
@@ -60,7 +59,7 @@ uchar snakeY2[32]; // y positions of segments 32–63
 #define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val))) // set y of segment i (32+ segments handled by second array)
 
 uchar dir = 2; // snake direction (0: left, 1: up, 2: down, 3: right)
-uchar food[2], LENGTH_SNAKE = 64; // food[x, y] and snake length
+uchar food[2], LENGTH_SNAKE = 62; // food[x, y] and snake length
 uchar posX = 0, posY = 2; // current head position
 uchar score = 0; // current score
 uchar best_score = 0; // best score

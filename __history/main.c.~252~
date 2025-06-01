@@ -40,12 +40,17 @@ void error_beep() { // plays error beep pattern
 }
 
 void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
+    // frequencies in Hz: choose from common musical notes (e.g., 262=C4, 294=D4, 330=E4, 349=F4, 392=G4, 440=A4, 494=B4)
+    int notes[] = {262, 330, 262, 330, 262, 330, 262, 330, 330, 262, 330, 262};
+    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};
 
     for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+        if (notes[i] == 0) {
+            delay_ms(gaps[i]); // rest
+        } else {
+            buzzer_beep_freq(notes[i], gaps[i]); // tone
+        }
+        delay_ms(30); // short pause between notes
     }
 }
 

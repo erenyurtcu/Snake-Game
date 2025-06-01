@@ -39,13 +39,12 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
-void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
-
-    for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+void win_melody() { // plays win melody using buzzer
+    int notes[] = {200, 100, 100, 400, 200, 150, 600, 300}; // note durations in ms
+    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0};     // pause durations after each note
+    for (int i = 0; i < 8; i++) {
+        buzzer_beep(notes[i]); // play note
+        delay_ms(gaps[i]);     // wait between notes
     }
 }
 

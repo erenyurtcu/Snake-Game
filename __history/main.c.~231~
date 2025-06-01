@@ -39,13 +39,12 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
-void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
-
-    for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+void win_melody() { // plays win melody using buzzer
+    int notes[] = {200, 100, 100, 400, 200, 150, 600, 300}; // note durations in ms
+    int gaps[]  = {50, 50, 100, 150, 100, 100, 150, 0};     // pause durations after each note
+    for (int i = 0; i < 8; i++) {
+        buzzer_beep(notes[i]); // play note
+        delay_ms(gaps[i]);     // wait between notes
     }
 }
 
@@ -60,7 +59,7 @@ uchar snakeY2[32]; // y positions of segments 32–63
 #define setY(i,val) ((i < 32) ? (snakeY[i]=(val)) : (snakeY2[(i)-32]=(val))) // set y of segment i (32+ segments handled by second array)
 
 uchar dir = 2; // snake direction (0: left, 1: up, 2: down, 3: right)
-uchar food[2], LENGTH_SNAKE = 64; // food[x, y] and snake length
+uchar food[2], LENGTH_SNAKE = 5; // food[x, y] and snake length
 uchar posX = 0, posY = 2; // current head position
 uchar score = 0; // current score
 uchar best_score = 0; // best score
@@ -304,7 +303,8 @@ Start: // label for game restart
         fillCell(tailX, tailY, 0); // clear old tail
 
         if (posX == food[0] && posY == food[1]) { // food eaten
-            buzzer_beep(100); // eat sound
+            buzzer_beep(200); // eat sound
+      
             // store old tail before growing
             uchar oldTailX = getX(0);
             uchar oldTailY = getY(0);
@@ -313,8 +313,9 @@ Start: // label for game restart
                 winScreen();
                 goto Start;
             }
-
+        
             LENGTH_SNAKE++; // grow snake
+      
             // insert new segment at old tail position
             for (i = LENGTH_SNAKE - 1; i > 0; i--) {
                 setX(i, getX(i - 1));
@@ -323,8 +324,10 @@ Start: // label for game restart
             setX(0, oldTailX);
             setY(0, oldTailY);
             fillCell(oldTailX, oldTailY, 1); // draw new segment immediately
+      
             generateFood(); // new food
             score++; // update score
+      
             score_txt[7] = '0' + (score / 10);
             score_txt[8] = '0' + (score % 10);
       
@@ -336,7 +339,7 @@ Start: // label for game restart
       
             writeScore(); // update display
         }
-        delay_ms(gameSettings.delay_time * 300); // control speed (if I divide by LENGTH_SNAKE, the game gets harder
+        delay_ms(gameSettings.delay_time * 300); // control speed
     }
 }
 

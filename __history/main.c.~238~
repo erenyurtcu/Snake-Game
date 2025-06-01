@@ -39,15 +39,33 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
-void win_melody() {
-    int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
-    int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
+void win_melody() { // extended victory melody with rich rhythm
+    int notes[] = {
+        150, 150, 100, 100,   // opening taps
+        300, 500,             // strong rise
+        200, 200, 150,        // mid rhythm
+        600, 400,             // big highlight
+        150, 150, 100, 100,   // repeat motif
+        500, 700,             // big ending
+        300, 300              // soft landing
+    };
 
-    for (int i = 0; i < 12; i++) {
-        buzzer_beep(notes[i]);   // play beep
-        delay_ms(gaps[i]);       // wait between beeps
+    int gaps[] = {
+        80,  80,  60, 60,     // fast start
+        150, 250,             // accent
+        100, 100, 80,         // rhythm
+        200, 150,             // swell
+        80, 80, 60, 60,       // motif again
+        300, 300,             // climax pause
+        150, 0                // soft end
+    };
+
+    for (int i = 0; i < sizeof(notes)/sizeof(notes[0]); i++) {
+        buzzer_beep(notes[i]);   // beep with note duration
+        delay_ms(gaps[i]);       // wait between notes
     }
 }
+
 
 uchar snakeX[32]; // x positions of segments 0–31
 uchar snakeY[32]; // y positions of segments 0–31

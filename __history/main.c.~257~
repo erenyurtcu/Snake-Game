@@ -39,6 +39,8 @@ void error_beep() { // plays error beep pattern
     delay_ms(200);     // short pause
 }
 
+
+
 void win_melody() {
     int notes[] = {100, 150, 100, 150, 100, 150, 100, 150, 150, 100, 150, 100}; // beep durations (ms)
     int gaps[]  = {50, 100, 130, 50, 100, 50, 130, 100, 50, 130, 100, 0};       // pause durations (ms)
@@ -48,6 +50,7 @@ void win_melody() {
         delay_ms(gaps[i]);       // wait between beeps
     }
 }
+
 
 uchar snakeX[32]; // x positions of segments 0–31
 uchar snakeY[32]; // y positions of segments 0–31
