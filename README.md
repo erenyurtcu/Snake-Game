@@ -127,6 +127,20 @@ To develop an educational, real-time, and interactive game experience using:
 
 ---
 
+## 📸 Gameplay Screenshots
+
+### 🎮 Game Screens – Grid View
+
+| ![Game Open](./game-open.jpg) | ![Select Difficulty](./select-diff-screen.jpg) |
+|:-----------------------------:|:---------------------------------------------:|
+| Game Open Screen              | Difficulty Selection Screen                    |
+
+| ![In Game](./in-game.jpg) | ![Game Over](./game-over.jpg) | ![You Won](./you-won.jpg) |
+|:-------------------------:|:-----------------------------:|:--------------------------:|
+| In-Game Playing Screen    | Game Over Screen              | Victory Screen             |
+
+---
+
 ## 📦 Repository Contents
 
 📄 **main.c** → Main game logic (snake, movement, GLCD drawing)  
