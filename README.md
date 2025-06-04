@@ -129,7 +129,7 @@ To develop an educational, real-time, and interactive game experience using:
 
 ## 📸 Gameplay Screenshots
 
-### 🎮 Game Screens – Grid View
+### 🎮 Game Screens
 
 | ![Game Open](./game-open.jpg) | ![Select Difficulty](./select-diff-screen.jpg) |
 |:-----------------------------:|:---------------------------------------------:|
